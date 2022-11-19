@@ -1,0 +1,182 @@
+{
+  "campaign": {
+    "auction_info": {},
+    "campaign_id": "7166196370641109287",
+    "campaign_type": 4,
+    "end_time": 1672502400,
+    "fake_sec_kill": false,
+    "group_data": {
+      "avatar_list": [],
+      "button_text": "",
+      "group_id": "",
+      "group_label": "",
+      "group_size": 0,
+      "joined": 0,
+      "persent": 0
+    },
+    "is_preheat": false,
+    "label": "",
+    "left_stock": 0,
+    "max_price": 0,
+    "pic": "",
+    "pre_sale_data": {
+      "deposit_price": 0,
+      "discount_desc": "",
+      "origin_price": 0,
+      "shop_svalue": 0
+    },
+    "price": 5990,
+    "price_header": "",
+    "price_str": "",
+    "progress_text": "",
+    "promotion_id": "3569214058899046983",
+    "regular_price": 10900,
+    "start_time": 1668441600,
+    "stock": 0,
+    "style": 13,
+    "sub_type": 0,
+    "time_end_label": "",
+    "time_start_label": "",
+    "user_limit": 0
+  },
+  "carousel_time": 5000,
+  "commodity_icon": {
+    "bottom_icon": {
+      "normal": "https://lf3-cm.ecombdstatic.com/obj/eden-cn/nmeh7nulmuhknuhog/test/jiangjiezhongs.webp",
+      "transparent": "https://lf6-cm.ecombdstatic.com/obj/eden-cn/nmeh7nulmuhknuhog/test/jian_cl.webp"
+    },
+    "bottom_icon_wide": 0,
+    "live_room_type": -1,
+    "product_type": 13,
+    "rotation_time": 5000,
+    "up_icon": "https://lf9-cm.ecombdstatic.com/obj/eden-cn/nmeh7nulmuhknuhog/test/jiangjiezhong.png",
+    "up_icon_rotation_whitelist": [
+      "no_filter"
+    ],
+    "up_icon_rotations": []
+  },
+  "logical_clock": 1668843418441,
+  "promotions": [
+    {
+      "activity": {},
+      "apply_coupon": 2,
+      "biz_kind": 0,
+      "button_label": "",
+      "campaign": true,
+      "campaign_type": 13,
+      "can_sold": true,
+      "cover": "https://p9-ec.byteimg.com/img/ecom-shop-material/felIazNI_m_6784b112158a16675f92445b082656a7_sx_305486_www800-800~tplv-resize:200:0.webp",
+      "detail_url": "sslocal://ec_goods_detail?promotion_id=3569214058899046983\u0026item_id=0\u0026kol_id=2384194153219051\u0026source_page=general_search_temai_others_photo\u0026carrier_type=live_popup_card\u0026meta_params=%7B%22enter_from%22%3A%22live%22%2C%22live_room_id%22%3A%227167505955482045222%22%2C%22entrance_info%22%3A%22%7B%5C%22enter_from%5C%22%3A%5C%22live%5C%22%2C%5C%22live_ad_business_extra_params%5C%22%3A%5C%22%7B%5C%5C%5C%22request_id%5C%5C%5C%22%3A%5C%5C%5C%22null%5C%5C%5C%22%7D%5C%22%2C%5C%22product_activity_type%5C%22%3A%5C%22nonactivity%5C%22%2C%5C%22live_id%5C%22%3A1%2C%5C%22search_id%5C%22%3A%5C%222022111911484801021208621505428AA5%5C%22%2C%5C%22_param_live_platform%5C%22%3A%5C%22live%5C%22%2C%5C%22enter_from_merge%5C%22%3A%5C%22general_search%5C%22%2C%5C%22enter_method%5C%22%3A%5C%22others_photo%5C%22%2C%5C%22ecom_group_type%5C%22%3A%5C%22live%5C%22%2C%5C%22live_tracker_params%5C%22%3A%5C%22%7B%5C%5C%5C%22search_params%5C%5C%5C%22%3A%5C%5C%5C%22%7B%5C%5C%5C%5C%5C%5C%5C%22search_id%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%222022111911484801021208621505428AA5%5C%5C%5C%5C%5C%5C%5C%22%2C%5C%5C%5C%5C%5C%5C%5C%22search_result_id%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%222384194153219051%5C%5C%5C%5C%5C%5C%5C%22%2C%5C%5C%5C%5C%5C%5C%5C%22list_item_id%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%222384194153219051%5C%5C%5C%5C%5C%5C%5C%22%2C%5C%5C%5C%5C%5C%5C%5C%22token_type%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%22person_v2%5C%5C%5C%5C%5C%5C%5C%22%2C%5C%5C%5C%5C%5C%5C%5C%22enter_from%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%22general_search%5C%5C%5C%5C%5C%5C%5C%22%2C%5C%5C%5C%5C%5C%5C%5C%22search_keyword%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%22%E4%B8%9C%E6%96%B9%E7%94%84%E9%80%89%E7%9B%B4%E6%92%AD%E9%97%B4%5C%5C%5C%5C%5C%5C%5C%22%7D%5C%5C%5C%22%7D%5C%22%2C%5C%22with_sku%5C%22%3A0%2C%5C%22request_id%5C%22%3A%5C%22null%5C%22%2C%5C%22action_type%5C%22%3A%5C%22click%5C%22%2C%5C%22sdk_version%5C%22%3A%5C%222570%5C%22%2C%5C%22search_type%5C%22%3A%5C%22general%5C%22%2C%5C%22follow_status%5C%22%3A%5C%220%5C%22%2C%5C%22room_id%5C%22%3A%5C%227167505955482045222%5C%22%2C%5C%22ecom_scene_id%5C%22%3A%5C%221001%5C%22%2C%5C%22source_method%5C%22%3A%5C%22others_photo%5C%22%2C%5C%22carrier_source%5C%22%3A%5C%22general_search%5C%22%2C%5C%22anchor_id%5C%22%3A%5C%222384194153219051%5C%22%2C%5C%22device_id%5C%22%3A%5C%223408930656496894%5C%22%2C%5C%22category_name%5C%22%3A%5C%22general_search_temai_others_photo%5C%22%2C%5C%22carrier_type%5C%22%3A%5C%22live_popup_card%5C%22%7D%22%7D\u0026request_additions=%7B%22enter_from%22%3A%22live%22%2C%22sec_author_id%22%3A%22MS4wLjABAAAAcud_llwUN1kpfpzeb3Xqbq8nsRwU7lxVzg3OSv31hNMPz95UspEw1L53dX-UDrE4%22%2C%22ecom_scene_id%22%3A%221001%22%7D\u0026third_platform_style=0\u0026v3_events_additions=%7B%22author_id%22%3A%222384194153219051%22%2C%22follow_status%22%3A%220%22%2C%22search_params%22%3A%22%7B%5C%22search_id%5C%22%3A%5C%222022111911484801021208621505428AA5%5C%22%2C%5C%22search_result_id%5C%22%3A%5C%222384194153219051%5C%22%2C%5C%22list_item_id%5C%22%3A%5C%222384194153219051%5C%22%2C%5C%22token_type%5C%22%3A%5C%22person_v2%5C%22%2C%5C%22enter_from%5C%22%3A%5C%22general_search%5C%22%2C%5C%22search_keyword%5C%22%3A%5C%22%E4%B8%9C%E6%96%B9%E7%94%84%E9%80%89%E7%9B%B4%E6%92%AD%E9%97%B4%5C%22%7D%22%7D\u0026fullscreen=0",
+      "directly_jump_url": "sslocal://ec_goods_detail?promotion_id=3569214058899046983\u0026item_id=0\u0026kol_id=2384194153219051\u0026source_page=general_search_temai_others_photo\u0026carrier_type=live_popup_card\u0026meta_params=%7B%22enter_from%22%3A%22live%22%2C%22live_room_id%22%3A%227167505955482045222%22%2C%22entrance_info%22%3A%22%7B%5C%22enter_from%5C%22%3A%5C%22live%5C%22%2C%5C%22live_ad_business_extra_params%5C%22%3A%5C%22%7B%5C%5C%5C%22request_id%5C%5C%5C%22%3A%5C%5C%5C%22null%5C%5C%5C%22%7D%5C%22%2C%5C%22product_activity_type%5C%22%3A%5C%22nonactivity%5C%22%2C%5C%22live_id%5C%22%3A1%2C%5C%22search_id%5C%22%3A%5C%222022111911484801021208621505428AA5%5C%22%2C%5C%22_param_live_platform%5C%22%3A%5C%22live%5C%22%2C%5C%22enter_from_merge%5C%22%3A%5C%22general_search%5C%22%2C%5C%22enter_method%5C%22%3A%5C%22others_photo%5C%22%2C%5C%22ecom_group_type%5C%22%3A%5C%22live%5C%22%2C%5C%22live_tracker_params%5C%22%3A%5C%22%7B%5C%5C%5C%22search_params%5C%5C%5C%22%3A%5C%5C%5C%22%7B%5C%5C%5C%5C%5C%5C%5C%22search_id%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%222022111911484801021208621505428AA5%5C%5C%5C%5C%5C%5C%5C%22%2C%5C%5C%5C%5C%5C%5C%5C%22search_result_id%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%222384194153219051%5C%5C%5C%5C%5C%5C%5C%22%2C%5C%5C%5C%5C%5C%5C%5C%22list_item_id%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%222384194153219051%5C%5C%5C%5C%5C%5C%5C%22%2C%5C%5C%5C%5C%5C%5C%5C%22token_type%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%22person_v2%5C%5C%5C%5C%5C%5C%5C%22%2C%5C%5C%5C%5C%5C%5C%5C%22enter_from%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%22general_search%5C%5C%5C%5C%5C%5C%5C%22%2C%5C%5C%5C%5C%5C%5C%5C%22search_keyword%5C%5C%5C%5C%5C%5C%5C%22%3A%5C%5C%5C%5C%5C%5C%5C%22%E4%B8%9C%E6%96%B9%E7%94%84%E9%80%89%E7%9B%B4%E6%92%AD%E9%97%B4%5C%5C%5C%5C%5C%5C%5C%22%7D%5C%5C%5C%22%7D%5C%22%2C%5C%22with_sku%5C%22%3A0%2C%5C%22request_id%5C%22%3A%5C%22null%5C%22%2C%5C%22action_type%5C%22%3A%5C%22click%5C%22%2C%5C%22sdk_version%5C%22%3A%5C%222570%5C%22%2C%5C%22search_type%5C%22%3A%5C%22general%5C%22%2C%5C%22follow_status%5C%22%3A%5C%220%5C%22%2C%5C%22room_id%5C%22%3A%5C%227167505955482045222%5C%22%2C%5C%22ecom_scene_id%5C%22%3A%5C%221001%5C%22%2C%5C%22source_method%5C%22%3A%5C%22others_photo%5C%22%2C%5C%22carrier_source%5C%22%3A%5C%22general_search%5C%22%2C%5C%22anchor_id%5C%22%3A%5C%222384194153219051%5C%22%2C%5C%22device_id%5C%22%3A%5C%223408930656496894%5C%22%2C%5C%22category_name%5C%22%3A%5C%22general_search_temai_others_photo%5C%22%2C%5C%22carrier_type%5C%22%3A%5C%22live_popup_card%5C%22%7D%22%7D\u0026request_additions=%7B%22enter_from%22%3A%22live%22%2C%22sec_author_id%22%3A%22MS4wLjABAAAAcud_llwUN1kpfpzeb3Xqbq8nsRwU7lxVzg3OSv31hNMPz95UspEw1L53dX-UDrE4%22%2C%22ecom_scene_id%22%3A%221001%22%7D\u0026third_platform_style=0\u0026v3_events_additions=%7B%22author_id%22%3A%222384194153219051%22%2C%22follow_status%22%3A%220%22%2C%22search_params%22%3A%22%7B%5C%22search_id%5C%22%3A%5C%222022111911484801021208621505428AA5%5C%22%2C%5C%22search_result_id%5C%22%3A%5C%222384194153219051%5C%22%2C%5C%22list_item_id%5C%22%3A%5C%222384194153219051%5C%22%2C%5C%22token_type%5C%22%3A%5C%22person_v2%5C%22%2C%5C%22enter_from%5C%22%3A%5C%22general_search%5C%22%2C%5C%22search_keyword%5C%22%3A%5C%22%E4%B8%9C%E6%96%B9%E7%94%84%E9%80%89%E7%9B%B4%E6%92%AD%E9%97%B4%5C%22%7D%22%7D\u0026fullscreen=0",
+      "discount_label": [
+        {
+          "id": "7054090330517913889",
+          "is_show": 0,
+          "is_third_coupon": false,
+          "kol_user_tag": 0,
+          "tag": "满99减10",
+          "tag_header": "券",
+          "type": 1
+        }
+      ],
+      "discount_price": {},
+      "elastic_title": "",
+      "event_param": {
+        "discount_type": "{130:7054090330517913889}",
+        "enter_from_merge": "general_search",
+        "enter_method": "others_photo",
+        "insurance_commodity_flag": "0",
+        "membership_prd": "normal",
+        "presell_type": "0",
+        "source_page": "general_search_temai_others_photo",
+        "warm_up_status": "0"
+      },
+      "extra": {
+        "has_discount_price": "0",
+        "origin_id": "2384194153219051_7167505955482045222_3569214058899046983",
+        "origin_type": "2002015000",
+        "start_time": "0"
+      },
+      "flash_icon": "",
+      "flash_type": 0,
+      "hot_atmosphere": {
+        "bg_color": "#CCFFB11A",
+        "bg_colors": [
+          "#CCFFB11A",
+          "#99FFB11A",
+          "#00FFB11A"
+        ],
+        "border_color": "#CCFFDC60",
+        "border_colors": [
+          "#CCFFDC60",
+          "#99FFDC60",
+          "#00FFDC60"
+        ],
+        "img": "https://lf3-cm.ecombdstatic.com/obj/eden-cn/uldphrbe/hot/hot_S.webp",
+        "left_margin": 0,
+        "num": "43",
+        "sale_num": "43",
+        "top_img": "",
+        "type": 2,
+        "ui_type": 1
+      },
+      "in_stock": true,
+      "index": 0,
+      "is_campaign": true,
+      "is_sole_sku": true,
+      "item_type": 4,
+      "jump_destination": {
+        "blank": 0,
+        "button": 2
+      },
+      "max_price": 0,
+      "min_price": 5990,
+      "min_price_str": "",
+      "order_url": "",
+      "platform": 1,
+      "price_header": "",
+      "product_id": "3569193481702378078",
+      "product_tag": [],
+      "promotion_id": "3569214058899046983",
+      "regular_price": 10900,
+      "rit_tags": {
+        "live_room_pop_biz_under": [
+          {
+            "label_name": "delay_send_pay_money",
+            "tag_id": "",
+            "text": [
+              "晚发即赔"
+            ],
+            "track_tag": "",
+            "type": 3
+          },
+          {
+            "label_name": "fake_compensate_four",
+            "tag_id": "",
+            "text": [
+              "假一赔四"
+            ],
+            "track_tag": "",
+            "type": 3
+          }
+        ],
+        "live_room_product_title_before": []
+      },
+      "shop_id": 9017844,
+      "small_cover": "https://p1-ec.byteimg.com/img/ecom-shop-material/felIazNI_m_6784b112158a16675f92445b082656a7_sx_305486_www800-800~tplv-resize:110:0.webp",
+      "small_pop_card": {
+        "background_img_new": ""
+      },
+      "status": 2,
+      "status_img_map": {
+        "7000": "https://lf3-cm.ecombdstatic.com/obj/cmp-ecom-live/goodslist_status_img.png"
+      },
+      "stock_num": 0,
+      "title": "乐煲泰国原装进口冬阴功100g 4盒装 +椰浆6个泰式风味 酸辣美味 "
+    }
+  ],
+  "server_time": 1668843418,
+  "show_duration": 10000,
+  "status_code": 0,
+  "status_msg": "success"
+}
