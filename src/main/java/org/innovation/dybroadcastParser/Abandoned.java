@@ -16,13 +16,14 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class Main {
+@Deprecated
+public class Abandoned {
 
     public static void main(String[] args) throws IOException {
         InputStream in=null;
         try {
             String rootPath = System.getProperty("user.dir");
-            String filename="webcast3-ws-web-lf.douyin.com_000033_server.bin";
+            String filename="test.bin";
             File dir = new File(rootPath+"\\src\\main\\resources\\data\\");
             File[] files = dir.listFiles(new FilenameFilter() {
                 @Override
