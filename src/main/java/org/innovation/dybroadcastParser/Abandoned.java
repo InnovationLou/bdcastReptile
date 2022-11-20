@@ -2,17 +2,10 @@ package org.innovation.dybroadcastParser;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.microsoft.playwright.*;
-import org.apache.commons.io.IOUtils;
 import org.innovation.dybroadcastParser.proto.DanmuvoWSS;
 import org.innovation.dybroadcastParser.proto.WSS;
 import org.innovation.dybroadcastParser.util.Utils;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Consumer;
 

@@ -567,3 +567,21 @@ message GiftGroupInfo {
 message EffectMixImageInfo {
 
 }
+
+//message ShowWatchInfoMessage {
+//  string desc=1;
+//  string count=2;
+//  string count_with_backup=3;
+//  string format_count=4;
+//}
+//
+//message MemberCountMessage {
+//  string count=1;
+//}
+message RoomStatsMessage {
+  int64 live_comment_ucnt=1;
+  int64 live_consume_ucnt=2;
+  int64 live_new_fans_ucnt=3;
+  int64 room_id=4;
+  int64 live_watch_ucnt=5;
+}
