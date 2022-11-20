@@ -33,6 +33,13 @@ public class Executor {
             String liveName="东方甄选";
             String userUrl="https://www.douyin.com/user/MS4wLjABAAAAcud_llwUN1kpfpzeb3Xqbq8nsRwU7lxVzg3OSv31hNMPz95UspEw1L53dX-UDrE4";
 
+            //交个朋友Demo
+//            String liveUrl="https://live.douyin.com/168465302284";
+//            String liveId="168465302284";
+//            String roomId="7168003384478042917";
+//            String liveName="交个朋友";
+//            String userUrl="https://www.douyin.com/user/MS4wLjABAAAAlwXCzzm7SmBfdZAsqQ_wVVUbpTvUSX1WC_x8HAjMa3gLb88-MwKL7s4OqlYntX4r";
+
             //执行
 //            ProductCatcher.testProduct();
 //            BaseInfoCatcher.testBaseInfo();
@@ -77,7 +84,7 @@ public class Executor {
 //            BaseInfoCatcher.getBaseInfo(liveUrl,liveId,roomId,liveName,userUrl);
 //            WssCatcher.getWss(liveUrl,liveId,roomId,liveName,userUrl);
             //主线程休眠
-            TimeUnit.SECONDS.sleep(30);
+            TimeUnit.MINUTES.sleep(120);
             //设置中断线程
             BaseInfoCatcher.isInterrupt=true;
             ProductCatcher.isInterrupt=true;

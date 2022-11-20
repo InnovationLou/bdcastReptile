@@ -17,4 +17,5 @@ public class ProductResultBean {
     private String title;
     private Double price;
     private Double regularPrice;
+    private Long saleNum;
 }

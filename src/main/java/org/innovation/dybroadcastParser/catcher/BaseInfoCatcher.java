@@ -74,7 +74,7 @@ public class BaseInfoCatcher {
 
     public static void getBaseInfo(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
         //指定路径和编码
-        CsvWriter writer = CsvUtil.getWriter("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\BaseInfo-output.csv", CharsetUtil.CHARSET_GBK);
+        CsvWriter writer = CsvUtil.getWriter("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\BaseInfo-output"+LocalDateTime.now().toString()+".csv", CharsetUtil.CHARSET_GBK);
         //按行写出
         writer.writeHeaderLine("时间戳","主播名字","直播间id","粉丝数","获赞数");
         OkHttpClient client = new OkHttpClient().newBuilder()

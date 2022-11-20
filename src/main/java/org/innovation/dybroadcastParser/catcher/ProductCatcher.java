@@ -77,9 +77,9 @@ public class ProductCatcher{
     public static void getProduct(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         //指定路径和编码
-        CsvWriter writer = CsvUtil.getWriter("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\Product-output.csv", CharsetUtil.CHARSET_GBK);
+        CsvWriter writer = CsvUtil.getWriter("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\Product-output"+LocalDateTime.now().toString()+".csv", CharsetUtil.CHARSET_GBK);
         //按行写出
-        writer.writeHeaderLine("时间戳","productId","promotionId","商品标题","商品活动价格","商品常规价格","直播间id","主播名称");
+        writer.writeHeaderLine("时间戳","productId","promotionId","商品标题","商品销量","商品活动价格","商品常规价格","直播间id","主播名称");
         try{
             MediaType mediaType = MediaType.parse("text/plain");
             RequestBody body = RequestBody.create(mediaType, "");
@@ -139,8 +139,9 @@ public class ProductCatcher{
                 bean.setTitle(title);
                 bean.setPrice(price/100.0f);
                 bean.setRegularPrice(regularPrice/100.0f);
+                bean.setSaleNum(sale);
                 //写入bean到csv
-                String[] content = {bean.getTime().toString(),bean.getProductId(),bean.getPromotionId(),bean.getTitle(),String.valueOf(bean.getPrice()),String.valueOf(bean.getRegularPrice())};
+                String[] content = {bean.getTime().toString(),bean.getProductId(),bean.getPromotionId(),bean.getTitle(),String.valueOf(bean.getPrice()),String.valueOf(bean.getRegularPrice()),String.valueOf(sale)};
                 writer.write(content);
                 logger.info("Product请求成功");
                 Thread.sleep(10000);

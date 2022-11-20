@@ -3,6 +3,7 @@ package org.innovation.dybroadcastParser.catcher;
 import cn.hutool.core.text.csv.CsvUtil;
 import cn.hutool.core.text.csv.CsvWriter;
 import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.http.HttpUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
@@ -12,6 +13,8 @@ import org.innovation.dybroadcastParser.proto.WSS;
 import org.innovation.dybroadcastParser.util.Utils;
 import org.innovation.dybroadcastParser.vo.WssResultBean;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -169,7 +172,7 @@ public class WssCatcher {
 
     public static void getWss(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
         //指定路径和编码
-        CsvWriter writer = CsvUtil.getWriter("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\Wss-output.csv", CharsetUtil.CHARSET_GBK);
+        CsvWriter writer = CsvUtil.getWriter("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\Wss-output"+LocalDateTime.now().toString()+".csv", CharsetUtil.CHARSET_GBK);
         //按行写出
         writer.writeHeaderLine("时间戳","消息类型","用户名","用户id","内容","总点赞","用户单次点赞","礼物Id","礼物描述","礼物数量","在线观众总数");
         try (Playwright playwright = Playwright.create()) {
@@ -269,19 +272,19 @@ public class WssCatcher {
                 }
             });
             //下载直播流
-//            page.onResponse(new Consumer<Response>() {
-//                @Override
-//                public void accept(Response response) {
-//                    if (response.url().matches("https://pull-flv-.*.douyincdn.com/third/stream-.*.flv?.*")) {
-//                        System.out.println("accept flv:" + response.url());
-//                        try {
-//                            HttpUtil.download(response.url(), new FileOutputStream("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\test.flv"), true);
-//                        } catch (FileNotFoundException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                }
-//            });
+            page.onResponse(new Consumer<Response>() {
+                @Override
+                public void accept(Response response) {
+                    if (response.url().matches("https://pull-flv-.*.douyincdn.com/third/stream-.*.flv?.*")) {
+                        System.out.println("accept flv:" + response.url());
+                        try {
+                            HttpUtil.download(response.url(), new FileOutputStream("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\"+LocalDateTime.now().toString()+".flv"), true);
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            });
 
             //访问页面
             page.navigate(liveUrl);
