@@ -23,7 +23,6 @@ public class WssResultBean {
 
     private String totalLikes;
 
-    private String like;
     private String likeCount;
 
     private String giftid;

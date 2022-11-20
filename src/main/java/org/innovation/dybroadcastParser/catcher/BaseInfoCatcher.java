@@ -73,7 +73,7 @@ public class BaseInfoCatcher {
         //指定路径和编码
         CsvWriter writer = CsvUtil.getWriter("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\BaseInfo-output.csv", CharsetUtil.CHARSET_GBK);
         //按行写出
-        writer.writeHeaderLine("时间戳","用户名","用户id","粉丝数","获赞数");
+        writer.writeHeaderLine("时间戳","主播名字","直播间id","粉丝数","获赞数");
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         try {
@@ -116,6 +116,7 @@ public class BaseInfoCatcher {
                     //获取点赞数
                     likes=element.attr("content").split("收获了")[1].split("个喜欢")[0];
                 }
+                logger.info("粉丝数："+fans+"\t点赞数："+likes);
                 //写入csv
                 String[] content = {LocalDateTime.now().toString(),liveName,liveId,fans,likes};
                 writer.write(content);

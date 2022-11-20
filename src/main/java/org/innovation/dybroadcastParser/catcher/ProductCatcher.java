@@ -16,7 +16,7 @@ import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-public class ProductCatcher {
+public class ProductCatcher{
 
     private static Logger logger=Logger.getLogger(ProductCatcher.class);
 
@@ -114,7 +114,7 @@ public class ProductCatcher {
                 if (null==object || null==object.getJSONArray("promotions")             //有概率不获得商品信息
                         ||null==object.getJSONArray("promotions").getJSONObject(0)
                         || object.getJSONArray("promotions").getJSONObject(0).size()==0) {
-                    return;
+                    continue;
                 }
                 //product_id
                 String productId=object.getJSONArray("promotions").getJSONObject(0).getString("product_id");
