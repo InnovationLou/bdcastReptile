@@ -20,6 +20,9 @@ public class ProductCatcher{
 
     private static Logger logger=Logger.getLogger(ProductCatcher.class);
 
+    //线程中断 临界变量
+    public static volatile boolean isInterrupt = false;
+
     public static void testProduct() throws IOException {
         //模拟手机发包
         //entrance_info先抠出来不要了
@@ -101,7 +104,7 @@ public class ProductCatcher{
             Response response;
             ProductResultBean bean=new ProductResultBean();
             //每10秒发送一次请求
-            while (true){
+            while (!isInterrupt){
                 response = client.newCall(request).execute();
                 while (response.code() != 200) {
                     logger.error("Product请求失败，正在重试");
@@ -142,6 +145,7 @@ public class ProductCatcher{
                 logger.info("Product请求成功");
                 Thread.sleep(10000);
             }
+            logger.info("ProductCatcher end....");
         }catch (Exception e){
             logger.error("获取商品信息失败",e);
         }finally {

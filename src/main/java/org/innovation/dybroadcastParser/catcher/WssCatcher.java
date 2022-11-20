@@ -32,6 +32,9 @@ public class WssCatcher {
      */
     public static final String url = "https://live.douyin.com/80017709309";
 
+    //线程中断 临界变量
+    public static volatile boolean isInterrupt = false;
+
     public static void testWss() {
         //获取直播间地址
 //        Scanner scanner= new Scanner(System.in);
@@ -150,7 +153,7 @@ public class WssCatcher {
             page.waitForLoadState(LoadState.NETWORKIDLE);
             //设置视频静音
             page.evaluate("document.querySelector('video').muted = true");
-            while (true) {
+            while (!isInterrupt) {
                 try {
                     //循环访问激活页面
                     page.content();
@@ -160,7 +163,7 @@ public class WssCatcher {
                     e.printStackTrace();
                 }
             }
-
+            return;
         }
     }
 
@@ -288,7 +291,7 @@ public class WssCatcher {
             page.waitForLoadState(LoadState.NETWORKIDLE);
             //设置视频静音
             page.evaluate("document.querySelector('video').muted = true");
-            while (true) {
+            while (!isInterrupt) {
                 try {
                     //循环访问激活页面
                     page.content();
@@ -298,7 +301,11 @@ public class WssCatcher {
                     e.printStackTrace();
                 }
             }
-
+            page.close();
+            browser.close();
+            playwright.close();
+            writer.close();
+            logger.info("WssCatcher End...");
         }catch (Exception e){
             logger.error("WSSError",e);
         }finally {

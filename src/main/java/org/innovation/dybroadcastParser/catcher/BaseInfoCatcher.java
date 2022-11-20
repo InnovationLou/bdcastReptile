@@ -20,6 +20,9 @@ public class BaseInfoCatcher {
 
     private static Logger logger=Logger.getLogger(BaseInfoCatcher.class);
 
+    //线程中断 临界变量
+    public static volatile boolean isInterrupt = false;
+
     /**
      * <div class="Y150jDoF">粉丝</div><div class="TxoC9G6_">182.2w</div>
      * <meta data-react-helmet="true" name="description" content="小点新：🍰今天也来一份小点新呀～ 可甜可盐，各种口味随便选😜 📮合作邮箱：hz01@yy.com 欢迎
@@ -98,7 +101,7 @@ public class BaseInfoCatcher {
                     .build();
             Response response;
             //每10秒发送一次请求
-            while (true){
+            while (!isInterrupt){
                 response = client.newCall(request).execute();
                 while (response.code() != 200) {
                     logger.error("BaseInfo请求失败，正在重试");
@@ -122,6 +125,7 @@ public class BaseInfoCatcher {
                 writer.write(content);
                 Thread.sleep(10000);
             }
+            logger.info("BaseInfoCatch end.....");
         }catch (Exception e){
             logger.error("获取商品信息失败",e);
         }finally {
