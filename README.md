@@ -1,4 +1,4 @@
 - 纯模拟实现
 - 需安装ffmpeg
 - 编译` mvn clean assembly:assembly `
-- 执行 ` java -jar dybroadcastParser-1.0-SNAPSHOT-jar-with-dependencies.jar `
+- 执行 ` java -jar target/dybroadcastParser-1.0-SNAPSHOT-jar-with-dependencies.jar `
