@@ -1,15 +1,9 @@
 package org.innovation.dybroadcastParser;
 
-import cn.hutool.core.text.csv.CsvUtil;
-import cn.hutool.core.text.csv.CsvWriter;
-import cn.hutool.core.util.CharsetUtil;
 import org.apache.log4j.Logger;
 import org.innovation.dybroadcastParser.catcher.BaseInfoCatcher;
 import org.innovation.dybroadcastParser.catcher.ProductCatcher;
 import org.innovation.dybroadcastParser.catcher.WssCatcher;
-import org.innovation.dybroadcastParser.vo.BaseInfoResultBean;
-import org.innovation.dybroadcastParser.vo.ProductResultBean;
-import org.innovation.dybroadcastParser.vo.WssResultBean;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -25,6 +19,8 @@ public class Executor {
     public static void main(String[] args) {
         try {
             //输入
+            // 设置日志路径${log.base}为当前项目
+            System.setProperty("log.base", System.getProperty("user.dir"));
 
             //东方甄选Demo
             String liveUrl="https://live.douyin.com/80017709309";
@@ -55,7 +51,7 @@ public class Executor {
                     try {
                         ProductCatcher.getProduct(liveUrl,liveId,roomId,liveName,userUrl);
                     } catch (Exception e) {
-                        logger.error(e.getMessage());
+                        logger.error(e);
                     }
                 }
             });
@@ -65,7 +61,7 @@ public class Executor {
                     try {
                         BaseInfoCatcher.getBaseInfo(liveUrl,liveId,roomId,liveName,userUrl);
                     } catch (Exception e) {
-                        logger.error(e.getMessage());
+                        logger.error(e);
                     }
                 }
             });
@@ -75,7 +71,7 @@ public class Executor {
                     try {
                         WssCatcher.getWss(liveUrl,liveId,roomId,liveName,userUrl);
                     } catch (Exception e) {
-                        logger.error(e.getMessage());
+                        logger.error(e);
                     }
                 }
             });
@@ -84,7 +80,7 @@ public class Executor {
 //            BaseInfoCatcher.getBaseInfo(liveUrl,liveId,roomId,liveName,userUrl);
 //            WssCatcher.getWss(liveUrl,liveId,roomId,liveName,userUrl);
             //主线程休眠
-            TimeUnit.MINUTES.sleep(120);
+            TimeUnit.MINUTES.sleep(5);
             //设置中断线程
             BaseInfoCatcher.isInterrupt=true;
             ProductCatcher.isInterrupt=true;

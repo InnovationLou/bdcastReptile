@@ -5,7 +5,6 @@ import cn.hutool.core.text.csv.CsvWriter;
 import cn.hutool.core.util.CharsetUtil;
 import okhttp3.*;
 import org.apache.log4j.Logger;
-import org.innovation.dybroadcastParser.vo.BaseInfoResultBean;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,8 +12,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.time.format.DateTimeFormatter;
 
 public class BaseInfoCatcher {
 
@@ -74,7 +72,8 @@ public class BaseInfoCatcher {
 
     public static void getBaseInfo(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
         //指定路径和编码
-        CsvWriter writer = CsvUtil.getWriter("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\BaseInfo-output"+LocalDateTime.now().toString()+".csv", CharsetUtil.CHARSET_GBK);
+        CsvWriter writer = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\BaseInfo-output"
+                +LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss"))+".csv", CharsetUtil.CHARSET_GBK);
         //按行写出
         writer.writeHeaderLine("时间戳","主播名字","直播间id","粉丝数","获赞数");
         OkHttpClient client = new OkHttpClient().newBuilder()

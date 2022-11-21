@@ -4,17 +4,14 @@ import cn.hutool.core.text.csv.CsvUtil;
 import cn.hutool.core.text.csv.CsvWriter;
 import cn.hutool.core.util.CharsetUtil;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
 import org.apache.log4j.Logger;
-import org.innovation.dybroadcastParser.vo.ProductInfo;
 import org.innovation.dybroadcastParser.vo.ProductResultBean;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.time.format.DateTimeFormatter;
 
 public class ProductCatcher{
 
@@ -77,9 +74,10 @@ public class ProductCatcher{
     public static void getProduct(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         //指定路径和编码
-        CsvWriter writer = CsvUtil.getWriter("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\Product-output"+LocalDateTime.now().toString()+".csv", CharsetUtil.CHARSET_GBK);
+        CsvWriter writer = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\Product-output"
+                +LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss"))+".csv", CharsetUtil.CHARSET_GBK);
         //按行写出
-        writer.writeHeaderLine("时间戳","productId","promotionId","商品标题","商品销量","商品活动价格","商品常规价格","直播间id","主播名称");
+        writer.writeHeaderLine("时间戳","productId","promotionId","商品标题","商品活动价格","商品常规价格","商品销量","直播间id","主播名称");
         try{
             MediaType mediaType = MediaType.parse("text/plain");
             RequestBody body = RequestBody.create(mediaType, "");
