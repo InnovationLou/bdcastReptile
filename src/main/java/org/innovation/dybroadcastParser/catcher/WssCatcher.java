@@ -166,7 +166,7 @@ public class WssCatcher {
         //按行写出
         writer.writeHeaderLine("时间戳","消息类型","用户名","用户id","内容","总点赞","用户单次点赞","礼物Id","礼物描述","礼物数量","在线观众总数");
         try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.firefox().launch(
+            Browser browser = playwright.chromium().launch(
                     new BrowserType.LaunchOptions().setHeadless(true)
 //                            .setHeadless(false) //取消无头模式，才能看见浏览器操作
 //                            .setSlowMo(100) //减慢执行速度，以免太快
@@ -193,6 +193,7 @@ public class WssCatcher {
                                 final List<DanmuvoWSS.Message> messagesList = response.getMessagesList();
                                 //根据message区分message类型解析
                                 messagesList.forEach(item -> {
+                                    logger.info("wss income:"+item.getMethod());
                                     //WebcastChatMessage
                                     if ("WebcastChatMessage".equals(item.getMethod())) {
                                         try {
@@ -262,28 +263,28 @@ public class WssCatcher {
                 }
             });
             //下载直播流
-            page.onResponse(new Consumer<Response>() {
-                @Override
-                public void accept(Response response) {
-                    if (response.url().matches("https://pull-flv-.*.douyincdn.com/third/stream-.*.flv?.*")) {
-                        System.out.println("accept flv:" + response.url());
-                        try {
-                            HttpUtil.download(response.url(), new FileOutputStream("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\"+LocalDateTime.now().toString()+".flv"), true);
-                        } catch (FileNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            });
+//            page.onResponse(new Consumer<Response>() {
+//                @Override
+//                public void accept(Response response) {
+//                    if (response.url().matches("https://pull-flv-.*.douyincdn.com/third/stream-.*.flv?.*")) {
+//                        System.out.println("accept flv:" + response.url());
+//                        try {
+//                            HttpUtil.download(response.url(), new FileOutputStream("D:\\Users\\Innovation\\IdeaProjects\\dybroadcastParser\\src\\main\\resources\\data\\"+LocalDateTime.now().toString()+".flv"), true);
+//                        } catch (FileNotFoundException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    }
+//                }
+//            });
 
             //访问页面
             page.navigate(liveUrl);
             //不知为啥 必须点一下播放才能获取流信息
 //            page.click("text=播放 刷新 >> path");
             //等待页面完全加载
-            page.waitForLoadState(LoadState.NETWORKIDLE);
+//            page.waitForLoadState(LoadState.NETWORKIDLE);
             //设置视频静音
-            page.evaluate("document.querySelector('video').muted = true");
+//            page.evaluate("document.querySelector('video').muted = true");
             while (!isInterrupt) {
                 try {
                     //循环访问激活页面
