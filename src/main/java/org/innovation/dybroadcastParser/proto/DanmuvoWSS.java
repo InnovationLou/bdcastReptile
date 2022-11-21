@@ -74180,6 +74180,785 @@ org.innovation.dybroadcastParser.proto.DanmuvoWSS.Image defaultValue);
 
   }
 
+  public interface RoomStatsMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:RoomStatsMessage)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int64 live_comment_ucnt = 1;</code>
+     * @return The liveCommentUcnt.
+     */
+    long getLiveCommentUcnt();
+
+    /**
+     * <code>int64 live_consume_ucnt = 2;</code>
+     * @return The liveConsumeUcnt.
+     */
+    long getLiveConsumeUcnt();
+
+    /**
+     * <code>int64 live_new_fans_ucnt = 3;</code>
+     * @return The liveNewFansUcnt.
+     */
+    long getLiveNewFansUcnt();
+
+    /**
+     * <code>int64 room_id = 4;</code>
+     * @return The roomId.
+     */
+    long getRoomId();
+
+    /**
+     * <code>int64 live_watch_ucnt = 5;</code>
+     * @return The liveWatchUcnt.
+     */
+    long getLiveWatchUcnt();
+  }
+  /**
+   * <pre>
+   *message ShowWatchInfoMessage {
+   *  string desc=1;
+   *  string count=2;
+   *  string count_with_backup=3;
+   *  string format_count=4;
+   *}
+   *message MemberCountMessage {
+   *  string count=1;
+   *}
+   * </pre>
+   *
+   * Protobuf type {@code RoomStatsMessage}
+   */
+  public static final class RoomStatsMessage extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:RoomStatsMessage)
+      RoomStatsMessageOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RoomStatsMessage.newBuilder() to construct.
+    private RoomStatsMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RoomStatsMessage() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RoomStatsMessage();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.innovation.dybroadcastParser.proto.DanmuvoWSS.internal_static_RoomStatsMessage_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.innovation.dybroadcastParser.proto.DanmuvoWSS.internal_static_RoomStatsMessage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage.class, org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage.Builder.class);
+    }
+
+    public static final int LIVE_COMMENT_UCNT_FIELD_NUMBER = 1;
+    private long liveCommentUcnt_;
+    /**
+     * <code>int64 live_comment_ucnt = 1;</code>
+     * @return The liveCommentUcnt.
+     */
+    @java.lang.Override
+    public long getLiveCommentUcnt() {
+      return liveCommentUcnt_;
+    }
+
+    public static final int LIVE_CONSUME_UCNT_FIELD_NUMBER = 2;
+    private long liveConsumeUcnt_;
+    /**
+     * <code>int64 live_consume_ucnt = 2;</code>
+     * @return The liveConsumeUcnt.
+     */
+    @java.lang.Override
+    public long getLiveConsumeUcnt() {
+      return liveConsumeUcnt_;
+    }
+
+    public static final int LIVE_NEW_FANS_UCNT_FIELD_NUMBER = 3;
+    private long liveNewFansUcnt_;
+    /**
+     * <code>int64 live_new_fans_ucnt = 3;</code>
+     * @return The liveNewFansUcnt.
+     */
+    @java.lang.Override
+    public long getLiveNewFansUcnt() {
+      return liveNewFansUcnt_;
+    }
+
+    public static final int ROOM_ID_FIELD_NUMBER = 4;
+    private long roomId_;
+    /**
+     * <code>int64 room_id = 4;</code>
+     * @return The roomId.
+     */
+    @java.lang.Override
+    public long getRoomId() {
+      return roomId_;
+    }
+
+    public static final int LIVE_WATCH_UCNT_FIELD_NUMBER = 5;
+    private long liveWatchUcnt_;
+    /**
+     * <code>int64 live_watch_ucnt = 5;</code>
+     * @return The liveWatchUcnt.
+     */
+    @java.lang.Override
+    public long getLiveWatchUcnt() {
+      return liveWatchUcnt_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (liveCommentUcnt_ != 0L) {
+        output.writeInt64(1, liveCommentUcnt_);
+      }
+      if (liveConsumeUcnt_ != 0L) {
+        output.writeInt64(2, liveConsumeUcnt_);
+      }
+      if (liveNewFansUcnt_ != 0L) {
+        output.writeInt64(3, liveNewFansUcnt_);
+      }
+      if (roomId_ != 0L) {
+        output.writeInt64(4, roomId_);
+      }
+      if (liveWatchUcnt_ != 0L) {
+        output.writeInt64(5, liveWatchUcnt_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (liveCommentUcnt_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, liveCommentUcnt_);
+      }
+      if (liveConsumeUcnt_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, liveConsumeUcnt_);
+      }
+      if (liveNewFansUcnt_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, liveNewFansUcnt_);
+      }
+      if (roomId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, roomId_);
+      }
+      if (liveWatchUcnt_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(5, liveWatchUcnt_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage)) {
+        return super.equals(obj);
+      }
+      org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage other = (org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage) obj;
+
+      if (getLiveCommentUcnt()
+          != other.getLiveCommentUcnt()) return false;
+      if (getLiveConsumeUcnt()
+          != other.getLiveConsumeUcnt()) return false;
+      if (getLiveNewFansUcnt()
+          != other.getLiveNewFansUcnt()) return false;
+      if (getRoomId()
+          != other.getRoomId()) return false;
+      if (getLiveWatchUcnt()
+          != other.getLiveWatchUcnt()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + LIVE_COMMENT_UCNT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getLiveCommentUcnt());
+      hash = (37 * hash) + LIVE_CONSUME_UCNT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getLiveConsumeUcnt());
+      hash = (37 * hash) + LIVE_NEW_FANS_UCNT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getLiveNewFansUcnt());
+      hash = (37 * hash) + ROOM_ID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getRoomId());
+      hash = (37 * hash) + LIVE_WATCH_UCNT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getLiveWatchUcnt());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     *message ShowWatchInfoMessage {
+     *  string desc=1;
+     *  string count=2;
+     *  string count_with_backup=3;
+     *  string format_count=4;
+     *}
+     *message MemberCountMessage {
+     *  string count=1;
+     *}
+     * </pre>
+     *
+     * Protobuf type {@code RoomStatsMessage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:RoomStatsMessage)
+        org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.innovation.dybroadcastParser.proto.DanmuvoWSS.internal_static_RoomStatsMessage_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.innovation.dybroadcastParser.proto.DanmuvoWSS.internal_static_RoomStatsMessage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage.class, org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage.Builder.class);
+      }
+
+      // Construct using org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        liveCommentUcnt_ = 0L;
+
+        liveConsumeUcnt_ = 0L;
+
+        liveNewFansUcnt_ = 0L;
+
+        roomId_ = 0L;
+
+        liveWatchUcnt_ = 0L;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.innovation.dybroadcastParser.proto.DanmuvoWSS.internal_static_RoomStatsMessage_descriptor;
+      }
+
+      @java.lang.Override
+      public org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage getDefaultInstanceForType() {
+        return org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage build() {
+        org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage buildPartial() {
+        org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage result = new org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage(this);
+        result.liveCommentUcnt_ = liveCommentUcnt_;
+        result.liveConsumeUcnt_ = liveConsumeUcnt_;
+        result.liveNewFansUcnt_ = liveNewFansUcnt_;
+        result.roomId_ = roomId_;
+        result.liveWatchUcnt_ = liveWatchUcnt_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage) {
+          return mergeFrom((org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage other) {
+        if (other == org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage.getDefaultInstance()) return this;
+        if (other.getLiveCommentUcnt() != 0L) {
+          setLiveCommentUcnt(other.getLiveCommentUcnt());
+        }
+        if (other.getLiveConsumeUcnt() != 0L) {
+          setLiveConsumeUcnt(other.getLiveConsumeUcnt());
+        }
+        if (other.getLiveNewFansUcnt() != 0L) {
+          setLiveNewFansUcnt(other.getLiveNewFansUcnt());
+        }
+        if (other.getRoomId() != 0L) {
+          setRoomId(other.getRoomId());
+        }
+        if (other.getLiveWatchUcnt() != 0L) {
+          setLiveWatchUcnt(other.getLiveWatchUcnt());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                liveCommentUcnt_ = input.readInt64();
+
+                break;
+              } // case 8
+              case 16: {
+                liveConsumeUcnt_ = input.readInt64();
+
+                break;
+              } // case 16
+              case 24: {
+                liveNewFansUcnt_ = input.readInt64();
+
+                break;
+              } // case 24
+              case 32: {
+                roomId_ = input.readInt64();
+
+                break;
+              } // case 32
+              case 40: {
+                liveWatchUcnt_ = input.readInt64();
+
+                break;
+              } // case 40
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      private long liveCommentUcnt_ ;
+      /**
+       * <code>int64 live_comment_ucnt = 1;</code>
+       * @return The liveCommentUcnt.
+       */
+      @java.lang.Override
+      public long getLiveCommentUcnt() {
+        return liveCommentUcnt_;
+      }
+      /**
+       * <code>int64 live_comment_ucnt = 1;</code>
+       * @param value The liveCommentUcnt to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLiveCommentUcnt(long value) {
+        
+        liveCommentUcnt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 live_comment_ucnt = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLiveCommentUcnt() {
+        
+        liveCommentUcnt_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long liveConsumeUcnt_ ;
+      /**
+       * <code>int64 live_consume_ucnt = 2;</code>
+       * @return The liveConsumeUcnt.
+       */
+      @java.lang.Override
+      public long getLiveConsumeUcnt() {
+        return liveConsumeUcnt_;
+      }
+      /**
+       * <code>int64 live_consume_ucnt = 2;</code>
+       * @param value The liveConsumeUcnt to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLiveConsumeUcnt(long value) {
+        
+        liveConsumeUcnt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 live_consume_ucnt = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLiveConsumeUcnt() {
+        
+        liveConsumeUcnt_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long liveNewFansUcnt_ ;
+      /**
+       * <code>int64 live_new_fans_ucnt = 3;</code>
+       * @return The liveNewFansUcnt.
+       */
+      @java.lang.Override
+      public long getLiveNewFansUcnt() {
+        return liveNewFansUcnt_;
+      }
+      /**
+       * <code>int64 live_new_fans_ucnt = 3;</code>
+       * @param value The liveNewFansUcnt to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLiveNewFansUcnt(long value) {
+        
+        liveNewFansUcnt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 live_new_fans_ucnt = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLiveNewFansUcnt() {
+        
+        liveNewFansUcnt_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long roomId_ ;
+      /**
+       * <code>int64 room_id = 4;</code>
+       * @return The roomId.
+       */
+      @java.lang.Override
+      public long getRoomId() {
+        return roomId_;
+      }
+      /**
+       * <code>int64 room_id = 4;</code>
+       * @param value The roomId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRoomId(long value) {
+        
+        roomId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 room_id = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRoomId() {
+        
+        roomId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long liveWatchUcnt_ ;
+      /**
+       * <code>int64 live_watch_ucnt = 5;</code>
+       * @return The liveWatchUcnt.
+       */
+      @java.lang.Override
+      public long getLiveWatchUcnt() {
+        return liveWatchUcnt_;
+      }
+      /**
+       * <code>int64 live_watch_ucnt = 5;</code>
+       * @param value The liveWatchUcnt to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLiveWatchUcnt(long value) {
+        
+        liveWatchUcnt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 live_watch_ucnt = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLiveWatchUcnt() {
+        
+        liveWatchUcnt_ = 0L;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:RoomStatsMessage)
+    }
+
+    // @@protoc_insertion_point(class_scope:RoomStatsMessage)
+    private static final org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage();
+    }
+
+    public static org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RoomStatsMessage>
+        PARSER = new com.google.protobuf.AbstractParser<RoomStatsMessage>() {
+      @java.lang.Override
+      public RoomStatsMessage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<RoomStatsMessage> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RoomStatsMessage> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public org.innovation.dybroadcastParser.proto.DanmuvoWSS.RoomStatsMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Response_descriptor;
   private static final 
@@ -74475,6 +75254,11 @@ org.innovation.dybroadcastParser.proto.DanmuvoWSS.Image defaultValue);
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_EffectMixImageInfo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_RoomStatsMessage_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_RoomStatsMessage_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -74745,9 +75529,12 @@ org.innovation.dybroadcastParser.proto.DanmuvoWSS.Image defaultValue);
       "\"\024\n\022LuckyMoneyGiftMeta\"\024\n\022GiftPanelOpera" +
       "tion\"\014\n\nGiftBanner\"\016\n\014GiftBuffInfo\"\021\n\017Gi" +
       "ftPreviewInfo\"\t\n\007GiftTip\"\017\n\rGiftGroupInf" +
-      "o\"\024\n\022EffectMixImageInfoB4\n&org.innovatio" +
-      "n.dybroadcastParser.protoB\nDanmuvoWSSb\006p" +
-      "roto3"
+      "o\"\024\n\022EffectMixImageInfo\"\216\001\n\020RoomStatsMes" +
+      "sage\022\031\n\021live_comment_ucnt\030\001 \001(\003\022\031\n\021live_" +
+      "consume_ucnt\030\002 \001(\003\022\032\n\022live_new_fans_ucnt" +
+      "\030\003 \001(\003\022\017\n\007room_id\030\004 \001(\003\022\027\n\017live_watch_uc" +
+      "nt\030\005 \001(\003B4\n&org.innovation.dybroadcastPa" +
+      "rser.protoB\nDanmuvoWSSb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -75107,6 +75894,12 @@ org.innovation.dybroadcastParser.proto.DanmuvoWSS.Image defaultValue);
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EffectMixImageInfo_descriptor,
         new java.lang.String[] { });
+    internal_static_RoomStatsMessage_descriptor =
+      getDescriptor().getMessageTypes().get(36);
+    internal_static_RoomStatsMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_RoomStatsMessage_descriptor,
+        new java.lang.String[] { "LiveCommentUcnt", "LiveConsumeUcnt", "LiveNewFansUcnt", "RoomId", "LiveWatchUcnt", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
