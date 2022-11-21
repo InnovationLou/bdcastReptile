@@ -80,7 +80,7 @@ public class Executor {
 //            BaseInfoCatcher.getBaseInfo(liveUrl,liveId,roomId,liveName,userUrl);
 //            WssCatcher.getWss(liveUrl,liveId,roomId,liveName,userUrl);
             //主线程休眠
-            TimeUnit.MINUTES.sleep(5);
+            TimeUnit.MINUTES.sleep(2);
             //设置中断线程
             BaseInfoCatcher.isInterrupt=true;
             ProductCatcher.isInterrupt=true;
