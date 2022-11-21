@@ -3,7 +3,6 @@ package org.innovation.dybroadcastParser.catcher;
 import cn.hutool.core.text.csv.CsvUtil;
 import cn.hutool.core.text.csv.CsvWriter;
 import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.http.HttpUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
@@ -12,8 +11,6 @@ import org.innovation.dybroadcastParser.proto.DanmuvoWSS;
 import org.innovation.dybroadcastParser.proto.WSS;
 import org.innovation.dybroadcastParser.util.Utils;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;

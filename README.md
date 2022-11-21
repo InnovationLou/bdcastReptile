@@ -1,0 +1,3 @@
+- 纯模拟实现
+- 需安装ffmpeg
+- ` mvn clean assembly:assembly `
