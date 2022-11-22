@@ -7,14 +7,20 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
 import org.apache.log4j.Logger;
+import org.innovation.dybroadcastParser.dispatch.PipeStream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class BaseInfoCatcher {
 
@@ -31,47 +37,6 @@ public class BaseInfoCatcher {
      * 每分钟刷新一次
      * @throws IOException
      */
-    public static void testBaseInfo() throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        MediaType mediaType = MediaType.parse("text/plain");
-        RequestBody body = RequestBody.create(mediaType, "");
-        Request request = new Request.Builder()
-                .url("https://www.douyin.com/user/MS4wLjABAAAACL8dhqidN7ktadiZUMWbPx35a0jt4OqEqDrnupzj-do")
-//                .method("GET", body)
-                .addHeader("Host", "www.douyin.com")
-                .addHeader("Cookie", "douyin.com; ttwid=1%7CRYKHmZ0CqlFDZEgxZJ4En9Q81OlDHuEK9O6HFWSyqVw%7C1667392111%7C1d379a7062af687c91e12e5e464a98ff5f190ec8c0d811b1210f8fe2fd572f08; s_v_web_id=verify_l9zm373k_DmdBOngF_RCWm_4pt5_9Pmv_WHOZCPVXbHJi; passport_csrf_token=5637b3c360ae1c4465baab8f261c1fa1; passport_csrf_token_default=5637b3c360ae1c4465baab8f261c1fa1; n_mh=phSNv06YMqa_3LBUHezwzg3w8t8cco4pBZUDeeZaiUM; passport_assist_user=Cj1X-5vuv0zUy1Ut4Jac7_4OGwvRCSutDGFg2nDJ8juvOWY0FqEJMa7drdmmYLGBcoXiLDF_LlUZn84-hcdGGkgKPON2pZ6b3AfA4DDS5tKfAXjCdrcjoBz9mhyfRhOSO1xb00HQ25OlyN9qlchGb5xKUywyLQ0rEAFs7RS2yxDgqKANGImv1lQiAQNEmpMa; sso_uid_tt=43f83a349708214bfaa3020ee28cbfdd; sso_uid_tt_ss=43f83a349708214bfaa3020ee28cbfdd; toutiao_sso_user=3b80b927ee9b1485446ddccd8c12e152; toutiao_sso_user_ss=3b80b927ee9b1485446ddccd8c12e152; sid_ucp_sso_v1=1.0.0-KDY5YjBlOWZkYWRmMGFiNGFjN2ZlNzc4ZTE5ZDdmMjA0MDViZWRmMjcKHQiu0N-6gQMQqZWUmwYY7zEgDDDJlPjbBTgGQPQHGgJsZiIgM2I4MGI5MjdlZTliMTQ4NTQ0NmRkY2NkOGMxMmUxNTI; ssid_ucp_sso_v1=1.0.0-KDY5YjBlOWZkYWRmMGFiNGFjN2ZlNzc4ZTE5ZDdmMjA0MDViZWRmMjcKHQiu0N-6gQMQqZWUmwYY7zEgDDDJlPjbBTgGQPQHGgJsZiIgM2I4MGI5MjdlZTliMTQ4NTQ0NmRkY2NkOGMxMmUxNTI; odin_tt=071d6c2e51efe3a49d36ccf642827c3ffa217329e429b54782206020991c5ca64d39b49592be07ad7001e6c0a86a15fbf81ba1cea5f56999835cbd6811a2f4eb; passport_auth_status=ae65d214d757adac448e795935bdbe55%2C; passport_auth_status_ss=ae65d214d757adac448e795935bdbe55%2C; sid_guard=ff5d05a2cb920807ca98fbb431e9a79d%7C1667566250%7C5183999%7CTue%2C+03-Jan-2023+12%3A50%3A49+GMT; uid_tt=c551f9c67033c71aab50d84b5868263c; uid_tt_ss=c551f9c67033c71aab50d84b5868263c; sid_tt=ff5d05a2cb920807ca98fbb431e9a79d; sessionid=ff5d05a2cb920807ca98fbb431e9a79d; sessionid_ss=ff5d05a2cb920807ca98fbb431e9a79d; sid_ucp_v1=1.0.0-KDNlZTMwYzA1ODhmZjFlY2JiNzIyYjg0NzUzODc0OTg1OGM5ZDFkYzQKFwiu0N-6gQMQqpWUmwYY7zEgDDgGQPQHGgJscSIgZmY1ZDA1YTJjYjkyMDgwN2NhOThmYmI0MzFlOWE3OWQ; ssid_ucp_v1=1.0.0-KDNlZTMwYzA1ODhmZjFlY2JiNzIyYjg0NzUzODc0OTg1OGM5ZDFkYzQKFwiu0N-6gQMQqpWUmwYY7zEgDDgGQPQHGgJscSIgZmY1ZDA1YTJjYjkyMDgwN2NhOThmYmI0MzFlOWE3OWQ; live_can_add_dy_2_desktop=%221%22; msToken=8Xb5ouLZvNPVSk40h_WZQl0myotSn02-b3RLH-Djmsfr5EaB5FJ73X10sYDmYM-4H4jYroSl4Gjp6CKA0q9dgMSiIes5r4lcJcYheYvTm1Z1SeSfBm2eodA=; download_guide=%221%2F20221119%22; __ac_nonce=06378a4d300e7cc84f935; __ac_signature=_02B4Z6wo00f01s1pp.wAAIDDrmNnlgW8xDrNSaNAANAvIVzA7G6EntqFGX89SBHVDhHBmpdc56X0o9IcM-PRZTaDTONorVCREfO-H32pjWBDI1MG4iqQ4oyUUYpUXvhmeob5gMrlKLtZy2bf7e; FOLLOW_LIVE_POINT_INFO=%22MS4wLjABAAAACL8dhqidN7ktadiZUMWbPx35a0jt4OqEqDrnupzj-do%2F1668873600000%2F0%2F1668850882580%2F0%22; tt_scid=WHgFdcHSSeVAoWkvPrA2x.9E6ZV3r4vZfphBI9CZ8KEfDYPPuNv6mn3mH5c4qBmb08fe; strategyABtestKey=%221668850922.927%22; home_can_add_dy_2_desktop=%221%22; msToken=FYqxpB9UUBiDsZkJREb6uHOrXu9thNSulMVmSPR_4DoseWUHdaVWCVUWr5LrIUMFxi_zTcwlSYpwQYScB4vPuKuiqCtAiorItUOr02Wc6ARL06bwJqAL7_4=; ttwid=1%7CRYKHmZ0CqlFDZEgxZJ4En9Q81OlDHuEK9O6HFWSyqVw%7C1667392111%7C1d379a7062af687c91e12e5e464a98ff5f190ec8c0d811b1210f8fe2fd572f08")
-                .addHeader("upgrade-insecure-requests", "1")
-                .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
-                .addHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-                .addHeader("sec-ch-ua", "\"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"")
-                .addHeader("sec-ch-ua-mobile", "?0")
-                .addHeader("sec-ch-ua-platform", "\"Windows\"")
-                .addHeader("sec-fetch-site", "none")
-                .addHeader("sec-fetch-mode", "navigate")
-                .addHeader("sec-fetch-user", "?1")
-                .addHeader("sec-fetch-dest", "document")
-                .addHeader("accept-language", "zh-CN,zh;q=0.9,en;q=0.8,en-US;q=0.7")
-                .build();
-        Response response = client.newCall(request).execute();
-
-        Document document= Jsoup.parse(response.body().string());
-//        System.out.println(document.body().toString());
-        //从document中定位target
-        Elements elements=document.select("meta[name=description][data-react-helmet=true]");
-        String fans=null;
-        String likes=null;
-        for (Element element:elements){
-            System.out.println("Found Element with Pattern:"+element.attr("content"));
-            //获取粉丝数
-            fans=element.attr("content").split("已有")[1].split("个粉丝")[0];
-            //获取点赞数
-            likes=element.attr("content").split("收获了")[1].split("个喜欢")[0];
-        }
-        System.out.println("粉丝数："+fans);
-        System.out.println("获赞数："+likes);
-    }
-
     public static void getBaseInfo(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
         //指定路径和编码
         CsvWriter writer = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\BaseInfo-output"
@@ -153,7 +118,7 @@ public class BaseInfoCatcher {
      * 					"HD1": "http://pull-flv-l11.douyincdn.com/third/stream-112010812736930268_hd.flv",
      * 					"SD1": "http://pull-flv-l11.douyincdn.com/third/stream-112010812736930268_ld.flv",
      * 					"SD2": "http://pull-flv-l11.douyincdn.com/third/stream-112010812736930268_sd.flv"
-     *                },...
+     *                },
      * @param liveUrl
      * @param liveId
      * @param roomId
@@ -167,7 +132,8 @@ public class BaseInfoCatcher {
             MediaType mediaType = MediaType.parse("text/plain");
             RequestBody body = RequestBody.create(mediaType, "");
             Request request = new Request.Builder()
-                    .url("https://live.douyin.com/webcast/web/enter/?aid=6383&live_id=1&device_platform=web&language=zh-CN&enter_from=web_live&cookie_enabled=true&screen_width=2560&screen_height=1440&browser_language=zh-CN&browser_platform=Win32&browser_name=Chrome&browser_version=107.0.0.0&web_rid=9409272172" +
+                    .url("https://live.douyin.com/webcast/web/enter/?aid=6383&live_id=1&device_platform=web&language=zh-CN&enter_from=web_live&cookie_enabled=true&screen_width=2560&screen_height=1440&browser_language=zh-CN&browser_platform=Win32&browser_name=Chrome&browser_version=107.0.0.0" +
+                            "&web_rid=" + liveId +
                             "&room_id_str=" + roomId +
                             "&enter_source=&msToken=ZOlA2OwdfcbL_-2oBntRdOxIfMM-okpYFdIG4ZycSnDo29S3wXxofQBaNCDl7BzhRb5xJURM1Ecuqv0sk8LstvHv6UWEm-_j1IFukT7SZ2Ptmetps8kKewk=&X-Bogus=DFSzswVYZnxANCpgS87wiYXAIQRf&_signature=_02B4Z6wo00001Vc-drgAAIDANDS20ATThf1XPnIAADa3PEaCeyz4TmtmvJdxiLL29hOV9l.KhOUd6BtsuZIggLp3RXE7ehBYzzZaJdD2boCDq3bx.EjJ36UbNaFWLD1iClg4C-LJt.KcTy0993")
 //                .method("GET", body)
@@ -194,19 +160,95 @@ public class BaseInfoCatcher {
             String result=response.body().string();
             System.out.println(result);
             JSONObject object= JSON.parseObject(result);
+            if (null==object || null==object.getJSONObject("data") || null==object.getJSONObject("data").getJSONArray("data")){
+                logger.error("检测直播状态出现意料之外的错误,response:"+result);
+            }
+            JSONObject isLiving = object.getJSONObject("data")
+                    .getJSONArray("data")
+                    .getJSONObject(0)
+                    .getJSONObject("stream_url");
+            if (isLiving==null){
+                logger.info(liveName+"未直播");
+                return;
+            }
             String streamUrl = object.getJSONObject("data")
                     .getJSONArray("data")
                     .getJSONObject(0)
-                    .getJSONObject("stream_url")
+                    .getJSONObject("stream_url")//未开播时这里为空
                     .getJSONObject("flv_pull_url")
-                    .getString("FULL_HD1");
+                    .getString("SD2");
+            logger.info(liveName+"正在直播,流地址:"+streamUrl);
+            Long startTime=System.currentTimeMillis();
+            String filename=liveName+"_"+startTime+".mp4";
             //使用ffmpeg下载streamUrl到本地
-            String cmd="ffmpeg -i "+streamUrl+" -c copy " + System.getProperty("user.dir")+"\\data\\"+liveName+".flv";
-            Process process = Runtime.getRuntime().exec(cmd);
-            logger.info("下载完成");
-
+            ProcessBuilder pb = new ProcessBuilder()
+                    .redirectErrorStream(true)
+                    .redirectInput(ProcessBuilder.Redirect.PIPE)
+                    .redirectOutput(ProcessBuilder.Redirect.INHERIT);
+//            String ffmpegPath= Arrays.stream(System.getenv("Path").split(";"))
+//                    .filter(path->path.contains("ffmpeg"))
+//                    .findFirst()
+//                    .orElseThrow(()->new RuntimeException("环境变量中未找到ffmpeg"));
+//            String cmd="cmd.exe /c start D:\\java\\ffmpeg\\bin\\ffmpeg.exe -i "+streamUrl+" -c copy -y " + System.getProperty("user.dir")+"\\data\\"+liveId+".mp4";
+//            //写入到bat
+//            File file = new File(System.getProperty("user.dir")+"\\data\\temp.bat");
+//            if (!file.exists()) {
+//                file.createNewFile();
+//            }
+//            FileWriter fw = new FileWriter(file);
+//            fw.write(bat);
+//            fw.close();
+            pb.command("ffmpeg", "-i", streamUrl, "-c", "copy", "-y", System.getProperty("user.dir")+"\\data\\"+filename);
+            Process process = pb.start();
+            //捕捉process输出
+//            new Thread(() -> {
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//                String line;
+//                try {
+//                    while ((line = reader.readLine()) != null) {
+//                        logger.info(line);
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }).start();
+            rename:
+            //check isInterrupt
+            while (true) {
+                while (isInterrupt) {
+                    //杀死进程ffmpeg.exe 会导致文件损坏 dnm
+//                    Runtime.getRuntime().exec("taskkill /F /IM ffmpeg.exe");
+                    //PERFECT SOLUTION!!!!!!!!
+                    OutputStream ostream = process.getOutputStream(); //Get the output stream of the process, which translates to what would be user input for the commandline
+                    ostream.write("q\n".getBytes());       //write out the character Q, followed by a newline or carriage return so it registers that Q has been 'typed' and 'entered'.
+                    ostream.flush();                          //Write out the buffer.
+                    break rename;
+                }
+                TimeUnit.SECONDS.sleep(1);
+            }
+            Long endtime=System.currentTimeMillis();
+            logger.info("已停止下载,下载持续时间:"+((endtime-startTime)/1000)+"s.开始重命名文件...");
+            File file=new File(System.getProperty("user.dir")+"\\data\\"+filename);
+            while (!file.exists()){
+                logger.info("文件不存在,可能正在生成....请等待");
+                TimeUnit.SECONDS.sleep(1);
+            }
+            TimeUnit.SECONDS.sleep(3);
+            Runtime.getRuntime().exec("taskkill /F /IM ffmpeg.exe");
+            TimeUnit.SECONDS.sleep(1);
+            file.renameTo(new File(System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4"));
         }catch (Exception e){
             logger.error("下载直播流失败",e);
         }
+    }
+
+    /**
+     * timestampe to YYYYMMDDHHmmss
+     * @param timestamp
+     * @return
+     */
+    private static String timestampToChar(Long timestamp){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+        return sdf.format(new Date(timestamp));
     }
 }

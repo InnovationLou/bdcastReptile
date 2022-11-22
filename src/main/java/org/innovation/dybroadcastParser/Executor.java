@@ -1,10 +1,25 @@
 package org.innovation.dybroadcastParser;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.resource.ResourceUtil;
+import cn.hutool.core.lang.Console;
+import cn.hutool.core.text.csv.CsvData;
+import cn.hutool.core.text.csv.CsvReader;
+import cn.hutool.core.text.csv.CsvRow;
+import cn.hutool.core.text.csv.CsvUtil;
 import org.apache.log4j.Logger;
 import org.innovation.dybroadcastParser.catcher.BaseInfoCatcher;
 import org.innovation.dybroadcastParser.catcher.ProductCatcher;
 import org.innovation.dybroadcastParser.catcher.WssCatcher;
+import org.innovation.dybroadcastParser.util.Utils;
+import org.innovation.dybroadcastParser.vo.BaseInfo;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -21,76 +36,45 @@ public class Executor {
             //输入
             // 设置日志路径${log.base}为当前项目
             System.setProperty("log.base", System.getProperty("user.dir"));
-
-            //东方甄选Demo
-            String liveUrl="https://live.douyin.com/80017709309";
-            String liveId="80017709309";
-            String roomId="7167876918040103710";
-            String liveName="东方甄选";
-            String userUrl="https://www.douyin.com/user/MS4wLjABAAAAcud_llwUN1kpfpzeb3Xqbq8nsRwU7lxVzg3OSv31hNMPz95UspEw1L53dX-UDrE4";
-
-            //交个朋友Demo
-//            String liveUrl="https://live.douyin.com/168465302284";
-//            String liveId="168465302284";
-//            String roomId="7168003384478042917";
-//            String liveName="交个朋友";
-//            String userUrl="https://www.douyin.com/user/MS4wLjABAAAAlwXCzzm7SmBfdZAsqQ_wVVUbpTvUSX1WC_x8HAjMa3gLb88-MwKL7s4OqlYntX4r";
-
-            //执行
-//            ProductCatcher.testProduct();
-//            BaseInfoCatcher.testBaseInfo();
-//            WssCatcher.testWss();
+            //read from csv
+            CsvReader csvReader= CsvUtil.getReader();
+            //从文件中读取CSV数据
+            final List<BaseInfo> list = csvReader.read(
+                    ResourceUtil.getUtf8Reader(System.getProperty("user.dir")+"\\data\\input\\list.csv"), BaseInfo.class);
+            //一个开播状态的人要占用4个线程
+            int eachPoolSize=4;
+            int onLiveNum=0;
+            List<BaseInfo> onLiveList=new ArrayList<>();
+            for (BaseInfo info:list){
+                if(Utils.isLiving(info.getLiveId(),info.getRoomId())){
+                    logger.info("直播间:"+info.getLiveName()+"正在直播");
+                    onLiveList.add(info);
+                    onLiveNum++;
+                }
+            }
+            if (onLiveNum==0){
+                logger.info("监控列表没有开播的人");
+                return;
+            }
             //创建线程池
             BlockingQueue queue=new java.util.concurrent.LinkedBlockingQueue();
-            ThreadPoolExecutor executor=new ThreadPoolExecutor(10,10,0,java.util.concurrent.TimeUnit.SECONDS,queue);
+            ThreadPoolExecutor executor=new ThreadPoolExecutor(eachPoolSize*onLiveNum,eachPoolSize*onLiveNum,0,java.util.concurrent.TimeUnit.SECONDS,queue);
 
-            //创建任务
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        ProductCatcher.getProduct(liveUrl,liveId,roomId,liveName,userUrl);
-                    } catch (Exception e) {
-                        logger.error(e);
-                    }
-                }
-            });
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        BaseInfoCatcher.getBaseInfo(liveUrl,liveId,roomId,liveName,userUrl);
-                    } catch (Exception e) {
-                        logger.error(e);
-                    }
-                }
-            });
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        BaseInfoCatcher.getLiveStream(liveUrl,liveId,roomId,liveName,userUrl);
-                    } catch (Exception e) {
-                        logger.error(e);
-                    }
-                }
-            });
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        WssCatcher.getWss(liveUrl,liveId,roomId,liveName,userUrl);
-                    } catch (Exception e) {
-                        logger.error(e);
-                    }
-                }
-            });
+            //循环创建任务
+            for (BaseInfo info:onLiveList){
+                //获取wss
+                WssCatcher wssCatcher=new WssCatcher(info);
+                executor.execute(wssCatcher);
+//                //获取产品信息
+//                ProductCatcher productCatcher=new ProductCatcher(info);
+//                executor.execute(productCatcher);
+//                //获取基本信息
+//                BaseInfoCatcher baseInfoCatcher=new BaseInfoCatcher(info);
+//                executor.execute(baseInfoCatcher);
+            }
 
-//            ProductCatcher.getProduct(liveUrl,liveId,roomId,liveName,userUrl);
-//            BaseInfoCatcher.getBaseInfo(liveUrl,liveId,roomId,liveName,userUrl);
-//            WssCatcher.getWss(liveUrl,liveId,roomId,liveName,userUrl);
             //主线程休眠
-            TimeUnit.MINUTES.sleep(2);
+            TimeUnit.MINUTES.sleep(3);
             //设置中断线程
             BaseInfoCatcher.isInterrupt=true;
             ProductCatcher.isInterrupt=true;
