@@ -14,5 +14,10 @@ public class BaseInfo {
     private String userUrl;
 
     public BaseInfo(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
+        this.liveUrl = liveUrl;
+        this.liveId = liveId;
+        this.roomId = roomId;
+        this.liveName = liveName;
+        this.userUrl = userUrl;
     }
 }

@@ -28,10 +28,10 @@ public class WssCatcher implements Runnable{
     public static volatile boolean isInterrupt = false;
 
     public WssCatcher(BaseInfo info) {
-        //为什么这里只能浅拷贝???
-        this.info=info;
+        //浅拷贝???
+//        this.info=info;
         //深拷贝
-//        this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl());
+        this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl());
     }
 
     public void getWss(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
