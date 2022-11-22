@@ -42,7 +42,7 @@ public class Executor {
 //            WssCatcher.testWss();
             //创建线程池
             BlockingQueue queue=new java.util.concurrent.LinkedBlockingQueue();
-            ThreadPoolExecutor executor=new ThreadPoolExecutor(3,3,0,java.util.concurrent.TimeUnit.SECONDS,queue);
+            ThreadPoolExecutor executor=new ThreadPoolExecutor(10,10,0,java.util.concurrent.TimeUnit.SECONDS,queue);
 
             //创建任务
             executor.execute(new Runnable() {
@@ -60,6 +60,16 @@ public class Executor {
                 public void run() {
                     try {
                         BaseInfoCatcher.getBaseInfo(liveUrl,liveId,roomId,liveName,userUrl);
+                    } catch (Exception e) {
+                        logger.error(e);
+                    }
+                }
+            });
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        BaseInfoCatcher.getLiveStream(liveUrl,liveId,roomId,liveName,userUrl);
                     } catch (Exception e) {
                         logger.error(e);
                     }

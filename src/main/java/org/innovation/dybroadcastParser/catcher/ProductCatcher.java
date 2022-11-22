@@ -108,7 +108,7 @@ public class ProductCatcher{
                     logger.error("Product请求失败，正在重试");
                     response = client.newCall(request).execute();
                 }
-                assert response.body() != null;
+//                assert response.body() != null;
                 String result=response.body().string();
                 System.out.println(result);
                 JSONObject object=JSON.parseObject(result);
