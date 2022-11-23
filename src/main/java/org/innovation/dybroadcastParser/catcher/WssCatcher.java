@@ -6,6 +6,7 @@ import cn.hutool.core.util.CharsetUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
+import lombok.Synchronized;
 import org.apache.log4j.Logger;
 import org.innovation.dybroadcastParser.proto.DanmuvoWSS;
 import org.innovation.dybroadcastParser.proto.WSS;
@@ -36,10 +37,10 @@ public class WssCatcher implements Runnable{
 
     public void getWss(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
         //指定路径和编码
-        CsvWriter writer = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\Wss-output"
-                +LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss"))+".csv", CharsetUtil.CHARSET_GBK);
+        CsvWriter writer = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\Wss-output" + liveName
+                +LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy年MM月dd日HH时mm分"))+".csv", CharsetUtil.CHARSET_GBK);
         //按行写出
-        writer.writeHeaderLine("时间戳","消息类型","用户名","用户id","内容","总点赞","用户单次点赞","礼物Id","礼物描述","礼物数量","在线观众总数");
+        writer.writeHeaderLine("时间戳","消息类型","用户名","用户id","内容","总点赞","用户单次点赞","礼物Id","礼物描述","礼物数量","在线观众总数","直播间id","主播名字");
         try (Playwright playwright = Playwright.create()) {
             Browser browser = playwright.chromium().launch(
                     new BrowserType.LaunchOptions().setHeadless(true)
@@ -73,8 +74,10 @@ public class WssCatcher implements Runnable{
                                     if ("WebcastChatMessage".equals(item.getMethod())) {
                                         try {
                                             DanmuvoWSS.ChatMessage chatMessage = DanmuvoWSS.ChatMessage.parseFrom(item.getPayload());
-                                            writer.write(new String[]{LocalDateTime.now().toString(),"WebcastChatMessage", chatMessage.getUser().getNickname(),
-                                                    String.valueOf(chatMessage.getUser().getId()), chatMessage.getContent(), "", "", "", "", "", ""});
+                                            synchronized (this){
+                                                writer.write(new String[]{LocalDateTime.now().toString(),"WebcastChatMessage", chatMessage.getUser().getNickname(),
+                                                        String.valueOf(chatMessage.getUser().getId()), chatMessage.getContent(), "", "", "", "", "", "",liveId,liveName});
+                                            }
                                         } catch (InvalidProtocolBufferException e) {
                                             e.printStackTrace();
                                         }
@@ -84,8 +87,11 @@ public class WssCatcher implements Runnable{
                                     if ("WebcastLikeMessage".equals(item.getMethod())) {
                                         try {
                                             DanmuvoWSS.LikeMessage likeMessage = DanmuvoWSS.LikeMessage.parseFrom(item.getPayload());
-                                            writer.write(new String[]{LocalDateTime.now().toString(),"WebcastLikeMessage",
-                                                    likeMessage.getUser().getNickname(), String.valueOf(likeMessage.getUser().getId()), "", String.valueOf(likeMessage.getTotal()), String.valueOf(likeMessage.getCount()), "", "", "", ""});
+                                            synchronized (this){
+                                                writer.write(new String[]{LocalDateTime.now().toString(),"WebcastLikeMessage",
+                                                        likeMessage.getUser().getNickname(), String.valueOf(likeMessage.getUser().getId()), "", String.valueOf(likeMessage.getTotal()), String.valueOf(likeMessage.getCount())
+                                                        , "", "", "", "",liveId,liveName});
+                                            }
                                         } catch (InvalidProtocolBufferException e) {
                                             e.printStackTrace();
                                         }
@@ -95,10 +101,12 @@ public class WssCatcher implements Runnable{
                                     if ("WebcastGiftMessage".equals(item.getMethod())){
                                         try {
                                             DanmuvoWSS.GiftMessage giftMessage = DanmuvoWSS.GiftMessage.parseFrom(item.getPayload());
-                                            writer.write(new String[]{LocalDateTime.now().toString(),"WebcastGiftMessage",
-                                                    giftMessage.getUser().getNickname(), String.valueOf(giftMessage.getUser().getId()), "", "", "", String.valueOf(giftMessage.getGift().getId()),
-                                                    giftMessage.getGift().getDescribe(), String.valueOf(giftMessage.getComboCount()), ""});
+                                            synchronized (this){
+                                                writer.write(new String[]{LocalDateTime.now().toString(),"WebcastGiftMessage",
+                                                        giftMessage.getUser().getNickname(), String.valueOf(giftMessage.getUser().getId()), "", "", "", String.valueOf(giftMessage.getGift().getId()),
+                                                        giftMessage.getGift().getDescribe(), String.valueOf(giftMessage.getComboCount()), "",liveId,liveName});
 
+                                            }
                                         } catch (InvalidProtocolBufferException e) {
                                             e.printStackTrace();
                                         }
@@ -108,9 +116,12 @@ public class WssCatcher implements Runnable{
                                     if ("WebcastMemberMessage".equals(item.getMethod())){
                                         try {
                                             DanmuvoWSS.MemberMessage memberMessage = DanmuvoWSS.MemberMessage.parseFrom(item.getPayload());
-                                            writer.write(new String[]{LocalDateTime.now().toString(),"WebcastMemberMessage",
-                                                    memberMessage.getUser().getNickname(), String.valueOf(memberMessage.getUser().getId()), "", "", "", "", "", "", String.valueOf(memberMessage.getMemberCount())});
+                                            synchronized (this){
+                                                writer.write(new String[]{LocalDateTime.now().toString(),"WebcastMemberMessage",
+                                                        memberMessage.getUser().getNickname(), String.valueOf(memberMessage.getUser().getId()), "", "", "", "", "", ""
+                                                        , String.valueOf(memberMessage.getMemberCount()),liveId,liveName});
 
+                                            }
                                         } catch (InvalidProtocolBufferException e) {
                                             e.printStackTrace();
                                         }
@@ -120,9 +131,11 @@ public class WssCatcher implements Runnable{
                                     if ("WebcastRoomStatsMessage".equals(item.getMethod())){
                                         try {
                                             DanmuvoWSS.RoomStatsMessage roomStatsMessage = DanmuvoWSS.RoomStatsMessage.parseFrom(item.getPayload());
-                                            writer.write(new String[]{LocalDateTime.now().toString(),"WebcastRoomStatsMessage",
-                                                    "", "", String.valueOf(roomStatsMessage.getRoomId()), "", "", "", "", "", String.valueOf(roomStatsMessage.getLiveWatchUcnt())});
-
+                                            synchronized (this){
+                                                writer.write(new String[]{LocalDateTime.now().toString(),"WebcastRoomStatsMessage",
+                                                        "", "", String.valueOf(roomStatsMessage.getRoomId()), "", "", "", "", ""
+                                                        , String.valueOf(roomStatsMessage.getLiveWatchUcnt()),liveId,liveName});
+                                            }
                                         } catch (InvalidProtocolBufferException e) {
                                             e.printStackTrace();
                                         }

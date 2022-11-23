@@ -14,15 +14,19 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ProductCatcher{
+public class ProductCatcher implements Runnable{
 
     private static Logger logger=Logger.getLogger(ProductCatcher.class);
 
     //线程中断 临界变量
     public static volatile boolean isInterrupt = false;
 
+    private BaseInfo info;
+
     public ProductCatcher(BaseInfo info) {
+        this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl());
     }
+
 
     public static void getProduct(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -104,5 +108,10 @@ public class ProductCatcher{
             writer.close();
         }
 
+    }
+
+    @Override
+    public void run() {
+        getProduct(this.info.getLiveUrl(),this.info.getRoomId(),this.info.getRoomId(),this.info.getLiveName(),this.info.getUserUrl());
     }
 }

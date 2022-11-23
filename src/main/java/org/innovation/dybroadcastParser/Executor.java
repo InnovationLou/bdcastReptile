@@ -10,6 +10,7 @@ import cn.hutool.core.text.csv.CsvUtil;
 import org.apache.log4j.Logger;
 import org.innovation.dybroadcastParser.catcher.BaseInfoCatcher;
 import org.innovation.dybroadcastParser.catcher.ProductCatcher;
+import org.innovation.dybroadcastParser.catcher.StreamDownloader;
 import org.innovation.dybroadcastParser.catcher.WssCatcher;
 import org.innovation.dybroadcastParser.util.Utils;
 import org.innovation.dybroadcastParser.vo.BaseInfo;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 public class Executor {
     private static Logger logger=Logger.getLogger(Executor.class);
@@ -65,12 +67,15 @@ public class Executor {
                 //获取wss
                 WssCatcher wssCatcher=new WssCatcher(info);
                 executor.execute(wssCatcher);
-//                //获取产品信息
-//                ProductCatcher productCatcher=new ProductCatcher(info);
-//                executor.execute(productCatcher);
-//                //获取基本信息
-//                BaseInfoCatcher baseInfoCatcher=new BaseInfoCatcher(info);
-//                executor.execute(baseInfoCatcher);
+                //获取产品信息
+                ProductCatcher productCatcher=new ProductCatcher(info);
+                executor.execute(productCatcher);
+                //获取基本信息
+                BaseInfoCatcher baseInfoCatcher=new BaseInfoCatcher(info);
+                executor.execute(baseInfoCatcher);
+                //下载直播流
+                StreamDownloader downloadCatcher=new StreamDownloader(info);
+                executor.execute(downloadCatcher);
             }
 
             //主线程休眠
