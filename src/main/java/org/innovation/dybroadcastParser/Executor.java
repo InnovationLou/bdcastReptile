@@ -48,10 +48,12 @@ public class Executor {
             int onLiveNum=0;
             List<BaseInfo> onLiveList=new ArrayList<>();
             for (BaseInfo info:list){
-                if(Utils.isLiving(info.getLiveId(),info.getRoomId())){
-                    logger.info("直播间:"+info.getLiveName()+"正在直播");
-                    onLiveList.add(info);
+                //获取开播状态和roomid
+                Utils.getLiveStatus(info);
+                if (info.getLiveStatus().equals("1")){
                     onLiveNum++;
+                    onLiveList.add(info);
+                    logger.info("onlive:"+info.getLiveName());
                 }
             }
             if (onLiveNum==0){
@@ -79,11 +81,12 @@ public class Executor {
             }
 
             //主线程休眠
-            TimeUnit.MINUTES.sleep(3);
+            TimeUnit.MINUTES.sleep(1);
             //设置中断线程
             BaseInfoCatcher.isInterrupt=true;
             ProductCatcher.isInterrupt=true;
             WssCatcher.isInterrupt=true;
+            StreamDownloader.isInterrupt=true;
             //关闭线程池
             executor.shutdown();
             logger.info("Main Thread Exiting...");

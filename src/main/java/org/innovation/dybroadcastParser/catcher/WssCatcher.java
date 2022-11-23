@@ -32,7 +32,7 @@ public class WssCatcher implements Runnable{
         //浅拷贝???
 //        this.info=info;
         //深拷贝
-        this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl());
+        this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl(),info.getAuthorId(),info.getSecAuthorId());
     }
 
     public void getWss(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {

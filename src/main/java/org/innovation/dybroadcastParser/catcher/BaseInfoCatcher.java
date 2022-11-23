@@ -33,7 +33,7 @@ public class BaseInfoCatcher implements Runnable{
     private BaseInfo info;
 
     public BaseInfoCatcher(BaseInfo info) {
-        this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl());
+        this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl(),info.getAuthorId(),info.getSecAuthorId());
     }
 
     /**
@@ -46,8 +46,8 @@ public class BaseInfoCatcher implements Runnable{
      */
     public static void getBaseInfo(String liveUrl, String liveId, String roomId, String liveName, String userUrl) {
         //指定路径和编码
-        CsvWriter writer = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\BaseInfo-output"
-                +LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss"))+".csv", CharsetUtil.CHARSET_GBK);
+        CsvWriter writer = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\BaseInfo-output" +liveName
+                +LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy年MM月dd日HH时mm分"))+".csv", CharsetUtil.CHARSET_GBK);
         //按行写出
         writer.writeHeaderLine("时间戳","主播名字","直播间id","粉丝数","获赞数");
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -110,6 +110,6 @@ public class BaseInfoCatcher implements Runnable{
 
     @Override
     public void run() {
-        getBaseInfo(this.info.getLiveUrl(),this.info.getRoomId(),this.info.getRoomId(),this.info.getLiveName(),this.info.getUserUrl());
+        getBaseInfo(this.info.getLiveUrl(),this.info.getLiveId(),this.info.getRoomId(),this.info.getLiveName(),this.info.getUserUrl());
     }
 }

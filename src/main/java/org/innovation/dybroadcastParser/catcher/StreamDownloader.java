@@ -19,7 +19,7 @@ public class StreamDownloader implements Runnable{
     private BaseInfo info;
 
     public StreamDownloader(BaseInfo info) {
-        this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl());
+        this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl(),info.getAuthorId(),info.getSecAuthorId());
     }
 
     /**
@@ -70,7 +70,7 @@ public class StreamDownloader implements Runnable{
                     .addHeader("sec-fetch-site", "same-origin")
                     .addHeader("sec-fetch-mode", "cors")
                     .addHeader("sec-fetch-dest", "empty")
-                    .addHeader("referer", "https://live.douyin.com/9409272172")
+//                    .addHeader("referer", "https://live.douyin.com/9409272172")
                     .addHeader("accept-language", "zh-CN,zh;q=0.9,en;q=0.8,en-US;q=0.7")
                     .build();
             Response response;
@@ -176,6 +176,6 @@ public class StreamDownloader implements Runnable{
 
     @Override
     public void run() {
-        getLiveStream(this.info.getLiveUrl(),this.info.getRoomId(),this.info.getRoomId(),this.info.getLiveName(),this.info.getUserUrl());
+        getLiveStream(this.info.getLiveUrl(),this.info.getLiveId(),this.info.getRoomId(),this.info.getLiveName(),this.info.getUserUrl());
     }
 }
