@@ -1,11 +1,7 @@
 package org.innovation.dybroadcastParser;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
-import cn.hutool.core.lang.Console;
-import cn.hutool.core.text.csv.CsvData;
 import cn.hutool.core.text.csv.CsvReader;
-import cn.hutool.core.text.csv.CsvRow;
 import cn.hutool.core.text.csv.CsvUtil;
 import org.apache.log4j.Logger;
 import org.innovation.dybroadcastParser.catcher.BaseInfoCatcher;
@@ -15,16 +11,11 @@ import org.innovation.dybroadcastParser.catcher.WssCatcher;
 import org.innovation.dybroadcastParser.util.Utils;
 import org.innovation.dybroadcastParser.vo.BaseInfo;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 public class Executor {
     private static Logger logger=Logger.getLogger(Executor.class);
@@ -48,8 +39,8 @@ public class Executor {
             int onLiveNum=0;
             List<BaseInfo> onLiveList=new ArrayList<>();
             for (BaseInfo info:list){
-                //获取开播状态和roomid
-                Utils.getLiveStatus(info);
+                //获取开播状态 roomid authorid
+                Utils.getStatus(info);
                 if (info.getLiveStatus().equals("1")){
                     onLiveNum++;
                     onLiveList.add(info);
