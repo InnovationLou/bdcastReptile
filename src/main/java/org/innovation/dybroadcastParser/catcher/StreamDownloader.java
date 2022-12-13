@@ -120,7 +120,9 @@ public class StreamDownloader implements Runnable{
 //            FileWriter fw = new FileWriter(file);
 //            fw.write(bat);
 //            fw.close();
+            //下载原画视频
             pb.command("ffmpeg", "-i", streamUrl, "-c", "copy", "-y", System.getProperty("user.dir")+"\\data\\"+filename);
+
             Process process = pb.start();
             //捕捉process输出
 //            new Thread(() -> {
@@ -159,6 +161,9 @@ public class StreamDownloader implements Runnable{
             Runtime.getRuntime().exec("taskkill /F /IM ffmpeg.exe");
             TimeUnit.SECONDS.sleep(1);
             file.renameTo(new File(System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4"));
+//            //分离音频ffmpeg -i a.mp4 -acodec copy -vn r2.mp3
+//            pb.command("ffmpeg", "-i", System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4", "-acodec", "copy", "-vn", System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp3");
+//            pb.start();
         }catch (Exception e){
             logger.error("下载直播流失败",e);
         }
