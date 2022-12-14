@@ -76,7 +76,7 @@ public class ProductCatcher implements Runnable{
                     .addHeader("x-vc-bdturing-sdk-version", "2.2.1.cn")
                     .addHeader("user-agent", "com.ss.android.ugc.aweme/210601 (Linux; U; Android 7.1.2; zh_CN; SM-G973N; Build/PPR1.190810.011;tt-ok/3.10.0.2)")
                     .addHeader("x-ladon", "ZjkIeoShPEHL3F/v9Hdpt6YV6GxCc4Ch0KaLJsz5AnNrKu9d")
-                    .addHeader("x-gorgon", "0404a0ce4005cb5412ac0be9214be5070a9c2d22d146daa0935a")
+//                    .addHeader("x-gorgon", "0404a0ce4005cb5412ac0be9214be5070a9c2d22d146daa0935a")
 //                    .addHeader("x-khronos", "1671024595")
                     .addHeader("x-argus", "Dp1kjX8V/Ay/e53owM8FWQZLctAa3HOdtp9lwcA/pj3FXi8x3PXLL8DmnvxvFXcA/C4A7UKTEJUiibYZ1sdja08HpbAHOG61mo3Dweu58K0KddqASrDmATQZrejbH2IFepktlQgXLVww1h2yWw24eR26sQ0quwC+cSW6p+wBSJRDfxZZtP52BLYxNeX/EJZo4qtSBI9s8VIA88fck0IPAcDhddl0VNoPtD51eaT9c8lPrLMxXxvG1heeG6B/+YblnncoCH9t35P+3WEGgl/vN4Yi")
                     .build();

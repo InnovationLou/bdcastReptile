@@ -93,6 +93,7 @@ public class Utils {
                     }
                 });
                 page.navigate(info.getUserUrl());
+                Thread.sleep(1000);
                 //等待NetworkIdle
                 page.waitForLoadState(LoadState.NETWORKIDLE);
             } catch (Exception e) {
