@@ -65,15 +65,18 @@ public class Utils {
                             String requestContext=request.postData();
                             //去掉首尾各1个字符
                             requestContext=requestContext.substring(1,requestContext.length()-1);
-                            JSONObject jsonObject= JSON.parseObject(requestContext);
-                            JSONArray events = jsonObject.getJSONArray("events");
-                            //events
-                            for (int i = 0; i < events.size(); i++) {
-                                JSONObject event = events.getJSONObject(i);
-                                if (event.getString("event").equals("video_cover_show")){
-                                    String authorId = JSON.parseObject(event.getString("params")).getString("author_id");
-                                    info.setAuthorId(authorId);
-                                    break;
+                            //requestContext查找是否存在"video_cover_show"
+                            if (requestContext.contains("video_cover_show")){
+                                JSONObject jsonObject= JSON.parseObject(requestContext);
+                                JSONArray events = jsonObject.getJSONArray("events");
+                                //events
+                                for (int i = 0; i < events.size(); i++) {
+                                    JSONObject event = events.getJSONObject(i);
+                                    if (event.getString("event").equals("video_cover_show")){
+                                        String authorId = JSON.parseObject(event.getString("params")).getString("author_id");
+                                        info.setAuthorId(authorId);
+                                        break;
+                                    }
                                 }
                             }
                         }
