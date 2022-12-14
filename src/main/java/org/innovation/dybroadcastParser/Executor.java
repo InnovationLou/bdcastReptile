@@ -41,7 +41,10 @@ public class Executor {
             for (BaseInfo info:list){
                 //获取开播状态 roomid authorid
                 Utils.getStatus(info);
-                if (info.getLiveStatus().equals("1")){
+                if (null==info.getLiveStatus()){
+                    logger.info("not onlive:"+info.getLiveName());
+                    continue;
+                }else if (info.getLiveStatus().equals("1")){
                     onLiveNum++;
                     onLiveList.add(info);
                     logger.info("onlive:"+info.getLiveName());

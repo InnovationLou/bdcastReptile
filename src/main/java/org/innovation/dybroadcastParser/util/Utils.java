@@ -53,7 +53,7 @@ public class Utils {
         //模拟浏览器获取
         try (Playwright playwright = Playwright.create()) {
             try (Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
-                    .setHeadless(true)
+                    .setHeadless(false)
                     .setDevtools(false)
                 )
             ) {
