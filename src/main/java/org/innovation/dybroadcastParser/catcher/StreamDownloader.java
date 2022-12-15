@@ -121,7 +121,7 @@ public class StreamDownloader implements Runnable{
 //            fw.write(bat);
 //            fw.close();
             //下载原画视频
-            pb.command("ffmpeg", "-i", streamUrl, "-c", "copy", "-y", System.getProperty("user.dir")+"\\data\\"+filename);
+            pb.command("ffmpeg", "-i", streamUrl, "-c", "copy", "-y", System.getProperty("user.dir")+"/data/"+filename);
 
             Process process = pb.start();
             //捕捉process输出
@@ -152,7 +152,7 @@ public class StreamDownloader implements Runnable{
             }
             Long endtime=System.currentTimeMillis();
             logger.info("已停止下载,下载持续时间:"+((endtime-startTime)/1000)+"s.开始重命名文件...");
-            File file=new File(System.getProperty("user.dir")+"\\data\\"+filename);
+            File file=new File(System.getProperty("user.dir")+"/data/"+filename);
             while (!file.exists()){
                 logger.info("文件不存在,可能正在生成....请等待");
                 TimeUnit.SECONDS.sleep(1);
@@ -160,7 +160,7 @@ public class StreamDownloader implements Runnable{
             TimeUnit.SECONDS.sleep(3);
             Runtime.getRuntime().exec("killall ffmpeg");
             TimeUnit.SECONDS.sleep(1);
-            file.renameTo(new File(System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4"));
+            file.renameTo(new File(System.getProperty("user.dir")+"/data/"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4"));
 //            //分离音频ffmpeg -i a.mp4 -acodec copy -vn r2.mp3
 //            pb.command("ffmpeg", "-i", System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4", "-acodec", "copy", "-vn", System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp3");
 //            pb.start();

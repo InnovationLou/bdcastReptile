@@ -9,6 +9,7 @@ import okhttp3.*;
 import org.apache.log4j.Logger;
 import org.innovation.dybroadcastParser.vo.BaseInfo;
 import org.innovation.dybroadcastParser.vo.ProductResultBean;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -38,55 +39,24 @@ public class ProductCatcher implements Runnable{
         try{
             MediaType mediaType = MediaType.parse("text/plain");
             RequestBody body = RequestBody.create(mediaType, "");
-//            Request request = new Request.Builder()
-//                    .url("https://lianmengapi.snssdk.com/live/promotions/pop/v3/?author_id=" + authorId +
-//                            "&sec_author_id=" + secAuthorId +
-//                            "&room_id="+roomId+"&op_type=3&use_new_price=1&aid=1128&entrance_info=%257B%2522search_id%2522%253A%252220221123211406010208037089210D9D69%2522%252C%2522request_id%2522%253A%252220221123211406010208037089210D9D69%2522%252C%2522action_type%2522%253A%2522click%2522%252C%2522_param_live_platform%2522%253A%2522live%2522%252C%2522anchor_id%2522%253A%25222384194153219051%2522%252C%2522follow_status%2522%253A%25221%2522%252C%2522device_id%2522%253A%2522493005801012839%2522%252C%2522sdk_version%2522%253A%25222700%2522%252C%2522search_type%2522%253A%2522general%2522%252C%2522room_id%2522%253A%25227168990216811121438%2522%252C%2522live_tracker_params%2522%253A%2522%257B%255C%2522search_params%255C%2522%253A%255C%2522%257B%255C%255C%255C%2522pipeline_version%255C%255C%255C%2522%253A1%252C%255C%255C%255C%2522search_result_id%255C%255C%255C%2522%253A%255C%255C%255C%25222384194153219051%255C%255C%255C%2522%252C%255C%255C%255C%2522search_id%255C%255C%255C%2522%253A%255C%255C%255C%252220221123211406010208037089210D9D69%255C%255C%255C%2522%252C%255C%255C%255C%2522list_item_id%255C%255C%255C%2522%253A%255C%255C%255C%25227168990359320612127%255C%255C%255C%2522%257D%255C%2522%257D%2522%252C%2522enter_from_merge%2522%253A%2522general_search%2522%252C%2522enter_method%2522%253A%2522live_cell%2522%252C%2522enter_from%2522%253A%2522live%2522%252C%2522category_name%2522%253A%2522general_search_temai_live_cell%2522%252C%2522live_ad_business_extra_params%2522%253A%2522%257B%255C%2522request_id%255C%2522%253A%255C%252220221123211406010208037089210D9D69%255C%2522%257D%2522%252C%2522carrier_type%2522%253A%2522live_popup_card%2522%252C%2522ecom_scene_id%2522%253A%25221001%2522%257D&op_type=3&use_new_price=1&iid=2353398884097752&device_id=493005801012839&ac=wifi&channel=aweGW&aid=1128&app_name=aweme&version_code=220900&version_name=22.9.0&device_platform=android&os=android&ssmix=a&device_type=SM-G973N&device_brand=samsung&language=zh&os_api=25&os_version=7.1.2&manifest_version_code=220901&resolution=720*1280&dpi=240&update_version_code=22909900&_rticket=1669209284980&package=com.ss.android.ugc.aweme&mcc_mnc=46007&cpu_support64=false&host_abi=armeabi-v7a&ts=1669209283&is_guest_mode=0&app_type=normal&appTheme=light&need_personal_recommend=1&minor_status=0&is_android_pad=0&cdid=cb2b840d-7ec8-4687-b673-1e0c91534e80&md=0")
-////                .method("GET" ,body) //method GET must not have a request body
-//                    .addHeader("Host", "lianmengapi.snssdk.com")
-//                    .addHeader("Cookie", "passport_csrf_token=64ca82ff9b8e73db6fb74c6a57d28d14; passport_csrf_token_default=64ca82ff9b8e73db6fb74c6a57d28d14; d_ticket=df26923499a3f424b39cb0fca9bb29301351c; multi_sids=102495582093%3A709a6dcbc04081c46a695de09ffec54e; odin_tt=87b11de3720c7cb7ae8b9ac64fdc0b68f92ff30c2847c5078d3ac1d45dccb693e99e86bbd2513b90f1c97741a4c27b7d0cfd122f2c61d6622942e2cd7d10bdef3b20e2a447dce74d1dc21b8613749356; n_mh=Tx_fYJeTgyE_fsOR-zd_ogqeK51DxxRlWMGjTIq5Te8; passport_assist_user=Cj2nyHV4JWBbUtmx0Grhu5PhBE3ohi1s432ihuH4qnKvLuA5Bk7hC9sWz8S-y_s0NzYQsfAkQQ0A3NGASPcKGkgKPMU49fuP9A2zr2bQFeLtQzzty6bxQV0zoPVYxHdbPTknITsydZUiCKx1n329Mf1CWFwie0zIT5BR4YweNhDuy6ENGImv1lQiAQP-eC3e; uid_tt=625b7c3b7cb73cf68964aeb79e083a91; uid_tt_ss=625b7c3b7cb73cf68964aeb79e083a91; sid_tt=709a6dcbc04081c46a695de09ffec54e; sessionid=709a6dcbc04081c46a695de09ffec54e; sessionid_ss=709a6dcbc04081c46a695de09ffec54e; install_id=2353398884097752; ttreq=1$132c0ac9af43890477bbdbf4780678d903790802; store-region-src=did; sid_guard=709a6dcbc04081c46a695de09ffec54e%7C1670919027%7C5184000%7CSat%2C+11-Feb-2023+08%3A10%3A27+GMT; store-region=cn-gd")
-//                    .addHeader("x-tt-dt", "AAA23ATEUZM67E2TGYNPHRLKESBA6C2HFL7OIZ5VRQM5IJABR5DZQGJGXWFOQMOENER2KQMJETU37OV5G6PACFNKM37V7AWVGV5QSICFP7U4FC65TDILBSVYELZFF57JWGVIUE34GNVI7PYYQH4XV4A")
-//                    .addHeader("activity_now_client", "1670919139688")
-//                    .addHeader("x-ss-req-ticket", "1670919138824")
-//                    .addHeader("x-vc-bdturing-sdk-version", "3.1.0.cn")
-//                    .addHeader("passport-sdk-version", "20374")
-//                    .addHeader("x-tt-token", "00709a6dcbc04081c46a695de09ffec54e005ee9353438edebab5efb7ef431b223126d5b72a994a9da8ef3cb356b2f6ea561a843160e45c181451d77b758cb0b8e9edf0332c3a1a7fcbb0bcfc3632a41c3a771857d51a251d2b50a61036e0b87f027d-1.0.1")
-//                    .addHeader("sdk-version", "2")
-//                    .addHeader("user-agent", "com.ss.android.ugc.aweme/220901 (Linux; U; Android 7.1.2; zh_CN; SM-G973N; Build/PPR1.190810.011;tt-ok/3.12.13.1)")
-//                    .addHeader("x-ladon", "wWF8VzC0hWnadoZKOqKC+LOojwMzDiyNoBzJrcvShuvKzxTh")
-//                    .addHeader("x-gorgon", "0404c0f20000a098d5d7f7be0e110e117f066203458b8bf7856f")
-//                    .addHeader("x-khronos", "1670919138")
-//                    .addHeader("x-argus", "N5aKlztU0PC+QyDyZcrWP0HCC0KVm0fNvZd2HKr7eYON9CfU9ivOBJH6MOZ9+v8shGOR+cKKS3IddsM7myqrv3iEilj+UeTqwunROC/1P+wYF214YLqX4Iidu82NjuVha6DCootlrrHNZmRI8mRvCOOADgDgPgDDyCGSvFQwqmIV80HXjX0tQlTQ+KZwswM+nuKD4ugySLXqXG+sx9uRKTnHuJI8qI/XyW2n5IIlcss4Qsf4zdzQYsRqpAZNADSM94FGaIw50sPN6TJk2V+9Isk4AxHtp0YSuiN/6g0VFMB91Q==")
-//                    .build();
-            Request request = new Request.Builder()
-                    .url("https://lianmengapi.snssdk.com/live/promotions/pop/v3/?" +
-                            "ecom_sdk_version=27100" +
-                            "&author_id=" + authorId +
-                            "&sec_author_id=" + secAuthorId +
-                            "&room_id=" + roomId +
-                            "&entrance_info=%257B%2522search_id%2522%253A%2522202212142129440102121012331C161B9F%2522%252C%2522request_id%2522%253A%2522202212142129440102121012331C161B9F%2522%252C%2522action_type%2522%253A%2522click%2522%252C%2522_param_live_platform%2522%253A%2522live%2522%252C%2522anchor_id%2522%253A%25224195355415549012%2522%252C%2522follow_status%2522%253A%25220%2522%252C%2522device_id%2522%253A%25223408930656496894%2522%252C%2522sdk_version%2522%253A%25222570%2522%252C%2522search_type%2522%253A%2522general%2522%252C%2522room_id%2522%253A%25227176973783046114103%2522%252C%2522live_tracker_params%2522%253A%2522%257B%255C%2522search_params%255C%2522%253A%255C%2522%257B%255C%255C%255C%2522pipeline_version%255C%255C%255C%2522%253A1%252C%255C%255C%255C%2522search_result_id%255C%255C%255C%2522%253A%255C%255C%255C%25224195355415549012%255C%255C%255C%2522%252C%255C%255C%255C%2522search_id%255C%255C%255C%2522%253A%255C%255C%255C%2522202212142129440102121012331C161B9F%255C%255C%255C%2522%252C%255C%255C%255C%2522list_item_id%255C%255C%255C%2522%253A%255C%255C%255C%25224832541476774254283%255C%255C%255C%2522%257D%255C%2522%257D%2522%252C%2522enter_from_merge%2522%253A%2522general_search%2522%252C%2522enter_method%2522%253A%2522live_cell%2522%252C%2522enter_from%2522%253A%2522live%2522%252C%2522category_name%2522%253A%2522general_search_temai_live_cell%2522%252C%2522live_ad_business_extra_params%2522%253A%2522%257B%255C%2522request_id%255C%2522%253A%255C%2522202212142129440102121012331C161B9F%255C%2522%257D%2522%252C%2522carrier_type%2522%253A%2522live_popup_card%2522%252C%2522ecom_scene_id%2522%253A%25221001%2522%257D&op_type=3&use_new_price=1&iid=2159885451009367&device_id=3408930656496894&ac=wifi&channel=shenmasem_ls_dy_017&aid=1128&app_name=aweme&version_code=210600&version_name=21.6.0&device_platform=android&os=android&ssmix=a&device_type=SM-G973N&device_brand=samsung&language=zh&os_api=25&os_version=7.1.2&openudid=404978669ac5db65&manifest_version_code=210601&resolution=720*1280&dpi=240&update_version_code=21609900&_rticket=1671024595583&package=com.ss.android.ugc.aweme&mcc_mnc=46007&cpu_support64=false&host_abi=armeabi-v7a&ts=1671024595&is_guest_mode=0&app_type=normal&appTheme=light&need_personal_recommend=1&minor_status=0&is_android_pad=0&cdid=85f20741-c857-4b64-9e8e-64cde6aab63c&uuid=351564445751613")
-//                    .method("GET", body)
-                    .addHeader("Host", "lianmengapi.snssdk.com")
-                    .addHeader("Cookie", "install_id=2159885451009367; ttreq=1$3467ff2806f428be9e6a32cad42a356cc2179a5d; odin_tt=0bf1c3e90a06bfe67e44c475dbcc02bbaac2c3baeac6141878ab5080015f7e33ee337cce5bb04b007cc1c45c10a332f19962f51dbe75eeb5edf67766eb760e268e8647659a296c1f7053125dce632503; passport_csrf_token=3130e223ac037a55a731da09b022ce20; passport_csrf_token_default=3130e223ac037a55a731da09b022ce20; store-region-src=did; store-region=cn-gd; msToken=px0XNAWcmFbXoe89WoN5wexd4AlaH_pQp00mLtxicDOHGISRp-DX3ezfWRSlTshlgU1nTnq0M3PwbclGdqA0bezrgLhJ3DhdJ6mYF5qFSm0=")
-                    .addHeader("x-tt-dt", "AAATA6LVGCL2KPRZTUL2ZZ6OKAJYRWL3OVUVB5ZSIJXDIQIIOH7GSG3V33FYRZVOH3S766EGBH5BPFGEX6GLDEREU3LZTKBBKTRQJYTK4ABRZA2LNTL54VQ4FF3WCJU2MBSVZAU2ERRQQS6JPFGM3PQ")
-//                    .addHeader("activity_now_client", "1671024595618")
-//                    .addHeader("x-ss-req-ticket", "1671024595585")
-                    .addHeader("passport-sdk-version", "20372")
-                    .addHeader("sdk-version", "2")
-                    .addHeader("x-vc-bdturing-sdk-version", "2.2.1.cn")
-                    .addHeader("user-agent", "com.ss.android.ugc.aweme/210601 (Linux; U; Android 7.1.2; zh_CN; SM-G973N; Build/PPR1.190810.011;tt-ok/3.10.0.2)")
-                    .addHeader("x-ladon", "ZjkIeoShPEHL3F/v9Hdpt6YV6GxCc4Ch0KaLJsz5AnNrKu9d")
-//                    .addHeader("x-gorgon", "0404a0ce4005cb5412ac0be9214be5070a9c2d22d146daa0935a")
-//                    .addHeader("x-khronos", "1671024595")
-                    .addHeader("x-argus", "Dp1kjX8V/Ay/e53owM8FWQZLctAa3HOdtp9lwcA/pj3FXi8x3PXLL8DmnvxvFXcA/C4A7UKTEJUiibYZ1sdja08HpbAHOG61mo3Dweu58K0KddqASrDmATQZrejbH2IFepktlQgXLVww1h2yWw24eR26sQ0quwC+cSW6p+wBSJRDfxZZtP52BLYxNeX/EJZo4qtSBI9s8VIA88fck0IPAcDhddl0VNoPtD51eaT9c8lPrLMxXxvG1heeG6B/+YblnncoCH9t35P+3WEGgl/vN4Yi")
-                    .build();
+            Request request =null;
+            //交个朋友
+            if(liveId.equals("168465302284")){
+                request = getRequest168465302284(roomId, authorId, secAuthorId);
+            }else if(liveId.equals("80017709309")){
+
+            }
+            else {
+                return;
+            }
+//            Request request = getRequest(roomId, authorId, secAuthorId);
             Response response;
             ProductResultBean bean=new ProductResultBean();
             //每10秒发送一次请求
             while (!isInterrupt){
                 response = client.newCall(request).execute();
                 while (response.code() != 200) {
-                    logger.error("Product请求失败，正在重试");
+                    logger.error("Product请求失败，正在重试--code:"+response.code());
                     response = client.newCall(request).execute();
                     Thread.sleep(3000);
                 }
@@ -133,6 +103,58 @@ public class ProductCatcher implements Runnable{
             writer.close();
         }
 
+    }
+
+    private static Request getRequest168465302284(String roomId, String authorId, String secAuthorId) {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
+        Request request = new Request.Builder()
+                .url("https://lianmengapi.snssdk.com/live/promotions/pop/v3/?ecom_sdk_version=2580&author_id=4195355415549012&sec_author_id=MS4wLjABAAAAlwXCzzm7SmBfdZAsqQ_wVVUbpTvUSX1WC_x8HAjMa3gLb88-MwKL7s4OqlYntX4r&room_id=7177126250090089274&entrance_info=%257B%2522search_id%2522%253A%2522202212151232090102120810811203CE89%2522%252C%2522request_id%2522%253A%2522202212151232090102120810811203CE89%2522%252C%2522action_type%2522%253A%2522click%2522%252C%2522_param_live_platform%2522%253A%2522live%2522%252C%2522anchor_id%2522%253A%25224195355415549012%2522%252C%2522follow_status%2522%253A%25220%2522%252C%2522device_id%2522%253A%25223408930656496894%2522%252C%2522sdk_version%2522%253A%25222570%2522%252C%2522search_type%2522%253A%2522general%2522%252C%2522room_id%2522%253A%25227177126250090089274%2522%252C%2522live_tracker_params%2522%253A%2522%257B%255C%2522search_params%255C%2522%253A%255C%2522%257B%255C%255C%255C%2522pipeline_version%255C%255C%255C%2522%253A1%252C%255C%255C%255C%2522search_result_id%255C%255C%255C%2522%253A%255C%255C%255C%25224195355415549012%255C%255C%255C%2522%252C%255C%255C%255C%2522search_id%255C%255C%255C%2522%253A%255C%255C%255C%2522202212151232090102120810811203CE89%255C%255C%255C%2522%252C%255C%255C%255C%2522list_item_id%255C%255C%255C%2522%253A%255C%255C%255C%25223715452303323110008%255C%255C%255C%2522%257D%255C%2522%257D%2522%252C%2522enter_from_merge%2522%253A%2522general_search%2522%252C%2522enter_method%2522%253A%2522live_cell%2522%252C%2522enter_from%2522%253A%2522live%2522%252C%2522category_name%2522%253A%2522general_search_temai_live_cell%2522%252C%2522live_ad_business_extra_params%2522%253A%2522%257B%255C%2522request_id%255C%2522%253A%255C%2522202212151232090102120810811203CE89%255C%2522%257D%2522%252C%2522carrier_type%2522%253A%2522live_popup_card%2522%252C%2522ecom_scene_id%2522%253A%25221001%2522%257D&op_type=3&use_new_price=1&iid=2159885451009367&device_id=3408930656496894&ac=wifi&channel=shenmasem_ls_dy_017&aid=1128&app_name=aweme&version_code=210600&version_name=21.6.0&device_platform=android&os=android&ssmix=a&device_type=SM-G973N&device_brand=samsung&language=zh&os_api=25&os_version=7.1.2&openudid=404978669ac5db65&manifest_version_code=210601&resolution=720*1280&dpi=240&update_version_code=21609900&_rticket=1671078740079&package=com.ss.android.ugc.aweme&mcc_mnc=46007&cpu_support64=false&host_abi=armeabi-v7a&ts=1671078740&is_guest_mode=0&app_type=normal&appTheme=light&need_personal_recommend=1&minor_status=0&is_android_pad=0&cdid=85f20741-c857-4b64-9e8e-64cde6aab63c&uuid=351564445751613")
+//                .method("GET", body)
+                .addHeader("Host", "lianmengapi.snssdk.com")
+                .addHeader("Cookie", "install_id=2159885451009367; ttreq=1$3467ff2806f428be9e6a32cad42a356cc2179a5d; odin_tt=0bf1c3e90a06bfe67e44c475dbcc02bbaac2c3baeac6141878ab5080015f7e33ee337cce5bb04b007cc1c45c10a332f19962f51dbe75eeb5edf67766eb760e268e8647659a296c1f7053125dce632503; passport_csrf_token=3130e223ac037a55a731da09b022ce20; passport_csrf_token_default=3130e223ac037a55a731da09b022ce20; store-region-src=did; store-region=cn-gd; msToken=1fcQo7ZISCHcapGsOppOlUsA0TG7JjnNAB_pC9s55HR8XQtXAQd2zMu8HsIjaI3C1INSWo4S_gCU590t_SsvS1aNcFPEDcmMDs-PJTpY1rY=")
+                .addHeader("x-tt-dt", "AAA7ERN2OPHQUOYLT6LUQKLRX36P5KUZFFT5LDAJ3W6ZQEHA7UACUWDWQWUKEYCNVX66J7GO2N3MMJKO4PYDABQMQJ73G76BDTJRN2OXAAJGCJPQUF7FITN7CEUKGEIF2JQKTHCA2HTBHWCSE3DLZDI")
+                .addHeader("activity_now_client", "1671078740127")
+                .addHeader("x-ss-req-ticket", "1671078740081")
+                .addHeader("passport-sdk-version", "20372")
+                .addHeader("sdk-version", "2")
+                .addHeader("x-vc-bdturing-sdk-version", "2.2.1.cn")
+                .addHeader("user-agent", "com.ss.android.ugc.aweme/210601 (Linux; U; Android 7.1.2; zh_CN; SM-G973N; Build/PPR1.190810.011;tt-ok/3.10.0.2)")
+                .addHeader("x-ladon", "L3l5W+OVtHx4pTmdFx5S3EH2OQWKLXptZTY/qAvQ9RSEirmj")
+                .addHeader("x-gorgon", "0404c0fa400568eab3bf4595a005dc770234b80bc22f02b1e53d")
+                .addHeader("x-khronos", "1671078740")
+                .addHeader("x-argus", "wXnM0+35fC1C82iabJkAnFVtRO2p1/7y6ptpvuLxv6W69gKQ6CwZPqvlU5JfvXK68ix0f1TGIGnvqPbpxVZudZ0lePtHQ8GPHnttvLcXknpA7nXD6vfRoP1bzsxsK6C7vhrG7Lj7SxkHONLR2SsLQAJ7bL+4XtpsQOPNrQZVqNpHCS9sH/nPROwc0ijNsJMdRdKz/2Qo8q9e5ZOZGT7EKxdJ6rnJ4nB2gMgQlhBNpYdra1EFJtncPdwKjOXIPGpEG/sZ0SxvBRZMa10NdZFOqdS1")
+                .build();
+        return request;
+    }
+
+    @NotNull
+    private static Request getRequest(String roomId, String authorId, String secAuthorId) {
+        Request request = new Request.Builder()
+                .url("https://lianmengapi.snssdk.com/live/promotions/pop/v3/?" +
+                        "ecom_sdk_version=27100" +
+                        "&author_id=" + authorId +
+                        "&sec_author_id=" + secAuthorId +
+                        "&room_id=" + roomId +
+                        "&entrance_info=%257B%2522search_id%2522%253A%2522202212142129440102121012331C161B9F%2522%252C%2522request_id%2522%253A%2522202212142129440102121012331C161B9F%2522%252C%2522action_type%2522%253A%2522click%2522%252C%2522_param_live_platform%2522%253A%2522live%2522%252C%2522anchor_id%2522%253A%25224195355415549012%2522%252C%2522follow_status%2522%253A%25220%2522%252C%2522device_id%2522%253A%25223408930656496894%2522%252C%2522sdk_version%2522%253A%25222570%2522%252C%2522search_type%2522%253A%2522general%2522%252C%2522room_id%2522%253A%25227176973783046114103%2522%252C%2522live_tracker_params%2522%253A%2522%257B%255C%2522search_params%255C%2522%253A%255C%2522%257B%255C%255C%255C%2522pipeline_version%255C%255C%255C%2522%253A1%252C%255C%255C%255C%2522search_result_id%255C%255C%255C%2522%253A%255C%255C%255C%25224195355415549012%255C%255C%255C%2522%252C%255C%255C%255C%2522search_id%255C%255C%255C%2522%253A%255C%255C%255C%2522202212142129440102121012331C161B9F%255C%255C%255C%2522%252C%255C%255C%255C%2522list_item_id%255C%255C%255C%2522%253A%255C%255C%255C%25224832541476774254283%255C%255C%255C%2522%257D%255C%2522%257D%2522%252C%2522enter_from_merge%2522%253A%2522general_search%2522%252C%2522enter_method%2522%253A%2522live_cell%2522%252C%2522enter_from%2522%253A%2522live%2522%252C%2522category_name%2522%253A%2522general_search_temai_live_cell%2522%252C%2522live_ad_business_extra_params%2522%253A%2522%257B%255C%2522request_id%255C%2522%253A%255C%2522202212142129440102121012331C161B9F%255C%2522%257D%2522%252C%2522carrier_type%2522%253A%2522live_popup_card%2522%252C%2522ecom_scene_id%2522%253A%25221001%2522%257D&op_type=3&use_new_price=1&iid=2159885451009367&device_id=3408930656496894&ac=wifi&channel=shenmasem_ls_dy_017&aid=1128&app_name=aweme&version_code=210600&version_name=21.6.0&device_platform=android&os=android&ssmix=a&device_type=SM-G973N&device_brand=samsung&language=zh&os_api=25&os_version=7.1.2&openudid=404978669ac5db65&manifest_version_code=210601&resolution=720*1280&dpi=240&update_version_code=21609900&_rticket=1671024595583&package=com.ss.android.ugc.aweme&mcc_mnc=46007&cpu_support64=false&host_abi=armeabi-v7a&ts=1671024595&is_guest_mode=0&app_type=normal&appTheme=light&need_personal_recommend=1&minor_status=0&is_android_pad=0&cdid=85f20741-c857-4b64-9e8e-64cde6aab63c&uuid=351564445751613")
+//                    .method("GET", body)
+                .addHeader("Host", "lianmengapi.snssdk.com")
+                .addHeader("Cookie", "install_id=2159885451009367; ttreq=1$3467ff2806f428be9e6a32cad42a356cc2179a5d; odin_tt=0bf1c3e90a06bfe67e44c475dbcc02bbaac2c3baeac6141878ab5080015f7e33ee337cce5bb04b007cc1c45c10a332f19962f51dbe75eeb5edf67766eb760e268e8647659a296c1f7053125dce632503; passport_csrf_token=3130e223ac037a55a731da09b022ce20; passport_csrf_token_default=3130e223ac037a55a731da09b022ce20; store-region-src=did; store-region=cn-gd; msToken=px0XNAWcmFbXoe89WoN5wexd4AlaH_pQp00mLtxicDOHGISRp-DX3ezfWRSlTshlgU1nTnq0M3PwbclGdqA0bezrgLhJ3DhdJ6mYF5qFSm0=")
+                .addHeader("x-tt-dt", "AAATA6LVGCL2KPRZTUL2ZZ6OKAJYRWL3OVUVB5ZSIJXDIQIIOH7GSG3V33FYRZVOH3S766EGBH5BPFGEX6GLDEREU3LZTKBBKTRQJYTK4ABRZA2LNTL54VQ4FF3WCJU2MBSVZAU2ERRQQS6JPFGM3PQ")
+//                    .addHeader("activity_now_client", "1671024595618")
+//                    .addHeader("x-ss-req-ticket", "1671024595585")
+                .addHeader("passport-sdk-version", "20372")
+                .addHeader("sdk-version", "2")
+                .addHeader("x-vc-bdturing-sdk-version", "2.2.1.cn")
+                .addHeader("user-agent", "com.ss.android.ugc.aweme/210601 (Linux; U; Android 7.1.2; zh_CN; SM-G973N; Build/PPR1.190810.011;tt-ok/3.10.0.2)")
+//                    .addHeader("x-ladon", "ZjkIeoShPEHL3F/v9Hdpt6YV6GxCc4Ch0KaLJsz5AnNrKu9d")
+//                    .addHeader("x-gorgon", "0404a0ce4005cb5412ac0be9214be5070a9c2d22d146daa0935a")
+//                    .addHeader("x-khronos", "1671024595")
+                .addHeader("x-argus", "Dp1kjX8V/Ay/e53owM8FWQZLctAa3HOdtp9lwcA/pj3FXi8x3PXLL8DmnvxvFXcA/C4A7UKTEJUiibYZ1sdja08HpbAHOG61mo3Dweu58K0KddqASrDmATQZrejbH2IFepktlQgXLVww1h2yWw24eR26sQ0quwC+cSW6p+wBSJRDfxZZtP52BLYxNeX/EJZo4qtSBI9s8VIA88fck0IPAcDhddl0VNoPtD51eaT9c8lPrLMxXxvG1heeG6B/+YblnncoCH9t35P+3WEGgl/vN4Yi")
+                .build();
+        return request;
     }
 
     @Override
