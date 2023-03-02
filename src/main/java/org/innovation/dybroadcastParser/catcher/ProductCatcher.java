@@ -40,11 +40,11 @@ public class ProductCatcher implements Runnable{
             MediaType mediaType = MediaType.parse("text/plain");
             RequestBody body = RequestBody.create(mediaType, "");
             Request request =null;
-            //交个朋友
+
             if(liveId.equals("168465302284")){
                 request = getRequest168465302284(roomId, authorId, secAuthorId);
-            }else if(liveId.equals("80017709309")){
-
+            }else if(liveId.equals("726084074851")){
+                request = getRequest726084074851(roomId, authorId, secAuthorId);
             }
             else {
                 return;
@@ -103,6 +103,37 @@ public class ProductCatcher implements Runnable{
             writer.close();
         }
 
+    }
+
+    private static Request getRequest80017709309(String roomId, String authorId, String secAuthorId) {
+        return null;
+    }
+
+    private static Request getRequest726084074851(String roomId, String authorId, String secAuthorId) {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
+        Request request = new Request.Builder()
+                .url("https://lianmengapi.snssdk.com/live/promotions/pop/v3/?ecom_sdk_version=2580&author_id=104689026423&sec_author_id=MS4wLjABAAAAZYx4edFdJMIJAXkRQkSzk0U7y5RsNYEDiSb5ckLjx9U&room_id=7177219822478953271&entrance_info=%257B%2522search_id%2522%253A%25222022121513030301020917417349068361%2522%252C%2522request_id%2522%253A%25222022121513030301020917417349068361%2522%252C%2522action_type%2522%253A%2522click%2522%252C%2522_param_live_platform%2522%253A%2522live%2522%252C%2522anchor_id%2522%253A%2522104689026423%2522%252C%2522follow_status%2522%253A%25220%2522%252C%2522device_id%2522%253A%25223408930656496894%2522%252C%2522sdk_version%2522%253A%25222570%2522%252C%2522search_type%2522%253A%2522general%2522%252C%2522room_id%2522%253A%25227177219822478953271%2522%252C%2522live_tracker_params%2522%253A%2522%257B%255C%2522search_params%255C%2522%253A%255C%2522%257B%255C%255C%255C%2522pipeline_version%255C%255C%255C%2522%253A1%252C%255C%255C%255C%2522search_result_id%255C%255C%255C%2522%253A%255C%255C%255C%2522104689026423%255C%255C%255C%2522%252C%255C%255C%255C%2522search_id%255C%255C%255C%2522%253A%255C%255C%255C%25222022121513030301020917417349068361%255C%255C%255C%2522%252C%255C%255C%255C%2522list_item_id%255C%255C%255C%2522%253A%255C%255C%255C%25228124256160443629681%255C%255C%255C%2522%257D%255C%2522%257D%2522%252C%2522enter_from_merge%2522%253A%2522general_search%2522%252C%2522enter_method%2522%253A%2522live_cell%2522%252C%2522enter_from%2522%253A%2522live%2522%252C%2522category_name%2522%253A%2522general_search_temai_live_cell%2522%252C%2522live_ad_business_extra_params%2522%253A%2522%257B%255C%2522request_id%255C%2522%253A%255C%25222022121513030301020917417349068361%255C%2522%257D%2522%252C%2522carrier_type%2522%253A%2522live_popup_card%2522%252C%2522ecom_scene_id%2522%253A%25221001%2522%257D&op_type=3&use_new_price=1&iid=2159885451009367&device_id=3408930656496894&ac=wifi&channel=shenmasem_ls_dy_017&aid=1128&app_name=aweme&version_code=210600&version_name=21.6.0&device_platform=android&os=android&ssmix=a&device_type=SM-G973N&device_brand=samsung&language=zh&os_api=25&os_version=7.1.2&openudid=404978669ac5db65&manifest_version_code=210601&resolution=720*1280&dpi=240&update_version_code=21609900&_rticket=1671080624848&package=com.ss.android.ugc.aweme&mcc_mnc=46007&cpu_support64=false&host_abi=armeabi-v7a&ts=1671080624&is_guest_mode=0&app_type=normal&appTheme=light&need_personal_recommend=1&minor_status=0&is_android_pad=0&cdid=85f20741-c857-4b64-9e8e-64cde6aab63c&uuid=351564445751613")
+                //.method("GET", body)
+                .addHeader("Host", "lianmengapi.snssdk.com")
+                .addHeader("Cookie", "install_id=2159885451009367; ttreq=1$3467ff2806f428be9e6a32cad42a356cc2179a5d; odin_tt=0bf1c3e90a06bfe67e44c475dbcc02bbaac2c3baeac6141878ab5080015f7e33ee337cce5bb04b007cc1c45c10a332f19962f51dbe75eeb5edf67766eb760e268e8647659a296c1f7053125dce632503; passport_csrf_token=3130e223ac037a55a731da09b022ce20; passport_csrf_token_default=3130e223ac037a55a731da09b022ce20; store-region-src=did; store-region=cn-gd; msToken=rS-rdAchTpTD3EKFAktnZ3nZ2YlsI-ZLT4naGUYc6X9YQy2235YuB6VdYPoJ-wFl_xOSNaEnKuVhv0H9uvOcBceBRLMXGShF9_wh8TpqFV0=")
+                .addHeader("x-tt-dt", "AAA7ERN2OPHQUOYLT6LUQKLRX36P5KUZFFT5LDAJ3W6ZQEHA7UACUWDWQWUKEYCNVX66J7GO2N3MMJKO4PYDABQMQJ73G76BDTJRN2OXAAJGCJPQUF7FITN7CEUKGEIF2JQKTHCA2HTBHWCSE3DLZDI")
+                .addHeader("activity_now_client", "1671080624896")
+                .addHeader("x-ss-req-ticket", "1671080624850")
+                .addHeader("passport-sdk-version", "20372")
+                .addHeader("sdk-version", "2")
+                .addHeader("x-vc-bdturing-sdk-version", "2.2.1.cn")
+                .addHeader("user-agent", "com.ss.android.ugc.aweme/210601 (Linux; U; Android 7.1.2; zh_CN; SM-G973N; Build/PPR1.190810.011;tt-ok/3.10.0.2)")
+                .addHeader("x-ladon", "sLRhZAO4Y7sBg2DhIqK8T5MXtopA12wc4Gnrp5zyantCMRSm")
+                .addHeader("x-gorgon", "0404c0244005c8dcf1a4eca3b54b679c9346399713e74a64bdd5")
+                .addHeader("x-khronos", "1671080624")
+                .addHeader("x-argus", "zi8kLj2w/tuZBMziW/40P0ZtynOCu9DfM+u5rEI5Kh5zpcGZS5JTXzS5qdHMJMQ7mGE6rb4H7eul2Jb9GBkI4Q8hfVG2GImI7i7dEWskpV18UGiR/qML15S0xitiNZs+kRPP7kZfqB+R3qbOHeI11VD6w+JDvso4oYts6NFF1QHjG5ibkVckdEtBexI6StBwqEUQNEgU36irLXfDBt/tMChJzuuPQCjzHxyF7XJomG4OCVhtFwPU3qaa7/sxH8nqxhb8ZqvQUw2oSuJyF42FD29T")
+                .addHeader("Accept", "*/*")
+                .addHeader("Postman-Token", "8d95615a-3522-4db7-8e21-fdfa0d9414af")
+                .build();
+        return request;
     }
 
     private static Request getRequest168465302284(String roomId, String authorId, String secAuthorId) {
