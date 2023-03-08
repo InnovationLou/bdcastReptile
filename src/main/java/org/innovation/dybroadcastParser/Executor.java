@@ -75,7 +75,7 @@ public class Executor {
             }
 
             //主线程休眠
-            TimeUnit.MINUTES.sleep(1);
+            TimeUnit.MINUTES.sleep(2);
             //设置中断线程
             BaseInfoCatcher.isInterrupt=true;
             ProductCatcher.isInterrupt=true;
