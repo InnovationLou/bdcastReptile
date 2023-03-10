@@ -3,25 +3,21 @@ package org.innovation.dybroadcastParser.catcher;
 import cn.hutool.core.text.csv.CsvUtil;
 import cn.hutool.core.text.csv.CsvWriter;
 import cn.hutool.core.util.CharsetUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 import okhttp3.*;
 import org.apache.log4j.Logger;
-import org.innovation.dybroadcastParser.dispatch.PipeStream;
 import org.innovation.dybroadcastParser.vo.BaseInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.*;
-import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class BaseInfoCatcher implements Runnable{
 
@@ -34,6 +30,54 @@ public class BaseInfoCatcher implements Runnable{
 
     public BaseInfoCatcher(BaseInfo info) {
         this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl(),info.getAuthorId(),info.getSecAuthorId());
+    }
+
+    public static void getBaseInfoNew(String liveUrl, String liveId, String roomId, String liveName, String userUrl){
+        try (Playwright playwright = Playwright.create()) {
+            try (Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                    .setHeadless(false)
+                    .setDevtools(false)
+            )
+            ) {
+                //指定路径和编码
+                CsvWriter writer = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\BaseInfo-output" +liveName
+                        +LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy年MM月dd日HH时mm分"))+".csv", CharsetUtil.CHARSET_GBK);
+                //按行写出
+                writer.writeHeaderLine("时间戳","主播名字","直播间id","粉丝数","获赞数");
+
+                Page page = browser.newPage();
+
+                page.onResponse(response -> {
+                    if (response.url().equals(userUrl)){
+                        String body= response.text();
+                        Document document= Jsoup.parse(body);
+                        //从document中定位target
+                        Elements elements=document.select("meta[name=description][data-react-helmet=true]");
+                        String fans=null;
+                        String likes=null;
+                        for (Element element:elements){
+                            System.out.println("Found Element with Pattern:"+element.attr("content"));
+                            //获取粉丝数
+                            fans=element.attr("content").split("已有")[1].split("个粉丝")[0];
+                            //获取点赞数
+                            likes=element.attr("content").split("收获了")[1].split("个喜欢")[0];
+                        }
+                        logger.info("粉丝数："+fans+"\t点赞数："+likes);
+                        //写入csv
+                        String[] content = {LocalDateTime.now().toString(),liveName,liveId,fans,likes};
+                        writer.write(content);
+                    }
+                });
+
+                page.navigate(userUrl);
+                //等待NetworkIdle
+//                page.waitForLoadState(LoadState.NETWORKIDLE);
+                Thread.sleep(10*1000);
+                page.reload();
+            } catch (Exception e) {
+                logger.error(e);
+            }
+        }
     }
 
     /**
@@ -110,6 +154,6 @@ public class BaseInfoCatcher implements Runnable{
 
     @Override
     public void run() {
-        getBaseInfo(this.info.getLiveUrl(),this.info.getLiveId(),this.info.getRoomId(),this.info.getLiveName(),this.info.getUserUrl());
+        getBaseInfoNew(this.info.getLiveUrl(),this.info.getLiveId(),this.info.getRoomId(),this.info.getLiveName(),this.info.getUserUrl());
     }
 }

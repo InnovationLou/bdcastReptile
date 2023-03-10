@@ -5,8 +5,6 @@ import cn.hutool.core.text.csv.CsvWriter;
 import cn.hutool.core.util.CharsetUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.microsoft.playwright.*;
-import com.microsoft.playwright.options.LoadState;
-import lombok.Synchronized;
 import org.apache.log4j.Logger;
 import org.innovation.dybroadcastParser.proto.DanmuvoWSS;
 import org.innovation.dybroadcastParser.proto.WSS;

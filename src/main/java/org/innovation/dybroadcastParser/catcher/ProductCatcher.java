@@ -5,13 +5,16 @@ import cn.hutool.core.text.csv.CsvWriter;
 import cn.hutool.core.util.CharsetUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 import okhttp3.*;
 import org.apache.log4j.Logger;
 import org.innovation.dybroadcastParser.vo.BaseInfo;
 import org.innovation.dybroadcastParser.vo.ProductResultBean;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -27,7 +30,80 @@ public class ProductCatcher implements Runnable{
     public ProductCatcher(BaseInfo info) {
         this.info = new BaseInfo(info.getLiveUrl(), info.getLiveId(), info.getRoomId(), info.getLiveName(), info.getUserUrl(),info.getAuthorId(),info.getSecAuthorId());
     }
+    public static void getProductNew(String liveUrl, String liveId, String roomId, String liveName, String userUrl,String authorId,String secAuthorId) {
+        //live.douyin.com/live/promotions/pop/v3
+        try (Playwright playwright = Playwright.create()) {
+            try (Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                    .setHeadless(true)
+                    .setDevtools(false)
+            )
+            ) {
+                //指定路径和编码
+                CsvWriter writer = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\Product-output" + liveName
+                        +LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy年MM月dd日HH时mm分"))+".csv", CharsetUtil.CHARSET_GBK);
+                //按行写出
+                writer.writeHeaderLine("时间戳","productId","promotionId","商品标题","商品活动价格","商品常规价格","商品销量","直播间id","主播名称");
 
+                Page page = browser.newPage();
+
+                page.onResponse(response -> {
+                    if (response.url().contains("live.douyin.com/live/promotions/pop/v3")){
+                        try {
+                            ProductResultBean bean=new ProductResultBean();
+                            String result=response.text();
+                            System.out.println(result);
+                            JSONObject object=JSON.parseObject(result);
+                            if (object!=null){
+                                //product_id
+                                String productId=object.getJSONArray("promotions").getJSONObject(0).getString("product_id");
+                                //promotion_id
+                                String promotionId=object.getJSONArray("promotions").getJSONObject(0).getString("promotion_id");
+                                //商品标题
+                                String title = object.getJSONArray("promotions").getJSONObject(0).getString("title");
+                                //商品单价-当前活动价格
+                                Double price=object.getJSONArray("promotions").getJSONObject(0).getDouble("min_price");
+                                //商品单价-当前活动价格
+                                Double regularPrice=object.getJSONArray("promotions").getJSONObject(0).getDouble("regular_price");
+                                //商品销量
+                                Long sale=object.getJSONArray("promotions").getJSONObject(0).getJSONObject("hot_atmosphere").getLong("sale_num");
+
+                                //LocalDateTime
+                                bean.setTime(LocalDateTime.now());
+                                bean.setProductId(productId);
+                                bean.setPromotionId(promotionId);
+                                bean.setTitle(title);
+                                bean.setPrice(price/100.0f);
+                                bean.setRegularPrice(regularPrice/100.0f);
+                                bean.setSaleNum(sale);
+                                //写入bean到csv
+                                String[] content = {bean.getTime().toString(),bean.getProductId(),bean.getPromotionId(),bean.getTitle(),String.valueOf(bean.getPrice()),String.valueOf(bean.getRegularPrice()),String.valueOf(sale)};
+                                writer.write(content);
+                                logger.info("Product请求成功");
+                            }
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            logger.error("Product请求失败"+liveName);
+                        }
+                    }
+                });
+
+                page.navigate(liveUrl);
+                //等待NetworkIdle
+//                page.waitForLoadState(LoadState.NETWORKIDLE);
+                while (!isInterrupt){
+                    page.waitForTimeout(10000);
+                    page.reload();
+                }
+                page.close();
+                browser.close();
+                playwright.close();
+                logger.info("产品信息爬取完毕"+liveName);
+            } catch (Exception e) {
+                logger.error(e);
+            }
+        }
+    }
 
     public static void getProduct(String liveUrl, String liveId, String roomId, String liveName, String userUrl,String authorId,String secAuthorId) {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -190,6 +266,6 @@ public class ProductCatcher implements Runnable{
 
     @Override
     public void run() {
-        getProduct(this.info.getLiveUrl(),this.info.getLiveId(),this.info.getRoomId(),this.info.getLiveName(),this.info.getUserUrl(),this.info.getAuthorId(),this.info.getSecAuthorId());
+        getProductNew(this.info.getLiveUrl(),this.info.getLiveId(),this.info.getRoomId(),this.info.getLiveName(),this.info.getUserUrl(),this.info.getAuthorId(),this.info.getSecAuthorId());
     }
 }

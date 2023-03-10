@@ -2,15 +2,16 @@ package org.innovation.dybroadcastParser.catcher;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.microsoft.playwright.*;
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.LoadState;
 import org.apache.log4j.Logger;
 import org.innovation.dybroadcastParser.vo.BaseInfo;
 
 import java.io.File;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -131,6 +132,10 @@ public class StreamDownloader implements Runnable{
 //            //分离音频ffmpeg -i a.mp4 -acodec copy -vn r2.mp3
 //            pb.command("ffmpeg", "-i", System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4", "-acodec", "copy", "-vn", System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp3");
 //            pb.start();
+                page.close();
+                browser.close();
+                playwright.close();
+                logger.info("直播流下载完毕"+liveName+timestampToChar(endtime));
             } catch (Exception e) {
                 logger.error(e);
             }

@@ -8,10 +8,8 @@ import org.innovation.dybroadcastParser.catcher.BaseInfoCatcher;
 import org.innovation.dybroadcastParser.catcher.ProductCatcher;
 import org.innovation.dybroadcastParser.catcher.StreamDownloader;
 import org.innovation.dybroadcastParser.catcher.WssCatcher;
-import org.innovation.dybroadcastParser.util.Utils;
 import org.innovation.dybroadcastParser.vo.BaseInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -35,38 +33,38 @@ public class Executor {
             final List<BaseInfo> list = csvReader.read(
                     ResourceUtil.getUtf8Reader(System.getProperty("user.dir")+"\\data\\input\\list.csv"), BaseInfo.class);
             //一个开播状态的人要占用4个线程
-            int eachPoolSize=4;
-            int onLiveNum=0;
-            List<BaseInfo> onLiveList=new ArrayList<>();
-            for (BaseInfo info:list){
-                //获取开播状态 roomid authorid
-                Utils.getStatus(info);
-                if (null==info.getLiveStatus()){
-                    logger.info("not onlive:"+info.getLiveName());
-                    continue;
-                }else if (info.getLiveStatus().equals("1")){
-                    onLiveNum++;
-                    onLiveList.add(info);
-                    logger.info("onlive:"+info.getLiveName());
-                }
-            }
-            if (onLiveNum==0){
-                logger.info("监控列表没有开播的人");
-                return;
-            }
+//            int eachPoolSize=3;
+//            int onLiveNum=0;
+//            List<BaseInfo> onLiveList=new ArrayList<>();
+//            for (BaseInfo info:list){
+//                //获取开播状态 roomid authorid
+//                Utils.getStatus(info);
+//                if (null==info.getLiveStatus()){
+//                    logger.info("not onlive:"+info.getLiveName());
+//                    continue;
+//                }else if (info.getLiveStatus().equals("1")){
+//                    onLiveNum++;
+//                    onLiveList.add(info);
+//                    logger.info("onlive:"+info.getLiveName());
+//                }
+//            }
+//            if (onLiveNum==0){
+//                logger.info("监控列表没有开播的人");
+//                return;
+//            }
             //创建线程池
             BlockingQueue queue=new java.util.concurrent.LinkedBlockingQueue();
-            ThreadPoolExecutor executor=new ThreadPoolExecutor(eachPoolSize*onLiveNum,eachPoolSize*onLiveNum,0,java.util.concurrent.TimeUnit.SECONDS,queue);
+            ThreadPoolExecutor executor=new ThreadPoolExecutor(3*list.size(),3*list.size(),0,java.util.concurrent.TimeUnit.SECONDS,queue);
 
             //循环创建任务
             for (BaseInfo info:list){
                 //获取wss
                 WssCatcher wssCatcher=new WssCatcher(info);
                 executor.execute(wssCatcher);
-//                //获取产品信息
-//                ProductCatcher productCatcher=new ProductCatcher(info);
-//                executor.execute(productCatcher);
-//                //获取基本信息
+                //获取产品信息
+                ProductCatcher productCatcher=new ProductCatcher(info);
+                executor.execute(productCatcher);
+//                //获取基本信息 需要人工验证可用
 //                BaseInfoCatcher baseInfoCatcher=new BaseInfoCatcher(info);
 //                executor.execute(baseInfoCatcher);
                 //下载直播流
