@@ -78,7 +78,7 @@ public class ProductCatcher implements Runnable{
                                 //写入bean到csv
                                 String[] content = {bean.getTime().toString(),bean.getProductId(),bean.getPromotionId(),bean.getTitle(),String.valueOf(bean.getPrice()),String.valueOf(bean.getRegularPrice()),String.valueOf(sale)};
                                 writer.write(content);
-                                logger.info("Product请求成功");
+                                logger.info("Product请求成功"+liveName);
                             }
 
                         }catch (Exception e){

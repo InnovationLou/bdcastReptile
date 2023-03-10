@@ -41,7 +41,7 @@ public class WssCatcher implements Runnable{
         writer.writeHeaderLine("时间戳","消息类型","用户名","用户id","内容","总点赞","用户单次点赞","礼物Id","礼物描述","礼物数量","在线观众总数","直播间id","主播名字");
         try (Playwright playwright = Playwright.create()) {
             Browser browser = playwright.webkit().launch(
-                    new BrowserType.LaunchOptions().setHeadless(true)
+                    new BrowserType.LaunchOptions().setHeadless(false)
 //                            .setHeadless(false) //取消无头模式，才能看见浏览器操作
 //                            .setSlowMo(100) //减慢执行速度，以免太快
                             .setDevtools(false)); //打开浏览器开发者工具，默认不打开
@@ -67,7 +67,7 @@ public class WssCatcher implements Runnable{
                                 final List<DanmuvoWSS.Message> messagesList = response.getMessagesList();
                                 //根据message区分message类型解析
                                 messagesList.forEach(item -> {
-                                    logger.info("wss income:"+item.getMethod());
+//                                    logger.info("wss income:"+item.getMethod());
                                     //WebcastChatMessage
                                     if ("WebcastChatMessage".equals(item.getMethod())) {
                                         try {

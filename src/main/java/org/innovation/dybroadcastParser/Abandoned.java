@@ -19,12 +19,16 @@ public class Abandoned {
     /**
      * PC端直播间地址(改为批量输入)
      */
-    public static final String url="https://live.douyin.com/80017709309";
+    public static final String url="https://live.douyin.com/717710411611";
 
     public static void main(String[] args) {
 
         try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.webkit().launch();
+            Browser browser = playwright.webkit()
+                    .launch(new BrowserType.LaunchOptions().setHeadless(false)
+//                            .setHeadless(false) //取消无头模式，才能看见浏览器操作
+//                            .setSlowMo(100) //减慢执行速度，以免太快
+                            .setDevtools(false));
             Page page = browser.newPage();
 //                page.emulateMedia(null);
             Map<String, String> map = new HashMap<>();

@@ -128,7 +128,7 @@ public class StreamDownloader implements Runnable{
                 TimeUnit.SECONDS.sleep(3);
                 Runtime.getRuntime().exec("taskkill /F /IM ffmpeg.exe");
                 TimeUnit.SECONDS.sleep(1);
-                file.renameTo(new File("Z:\\share\\zxf\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4"));
+                file.renameTo(new File(System.getProperty("user.dir")+"/data/"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4"));
 //            //分离音频ffmpeg -i a.mp4 -acodec copy -vn r2.mp3
 //            pb.command("ffmpeg", "-i", System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4", "-acodec", "copy", "-vn", System.getProperty("user.dir")+"\\data\\"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp3");
 //            pb.start();

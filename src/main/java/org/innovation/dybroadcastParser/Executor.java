@@ -62,8 +62,8 @@ public class Executor {
                 WssCatcher wssCatcher=new WssCatcher(info);
                 executor.execute(wssCatcher);
                 //获取产品信息
-                ProductCatcher productCatcher=new ProductCatcher(info);
-                executor.execute(productCatcher);
+//                ProductCatcher productCatcher=new ProductCatcher(info);
+//                executor.execute(productCatcher);
 //                //获取基本信息 需要人工验证可用
 //                BaseInfoCatcher baseInfoCatcher=new BaseInfoCatcher(info);
 //                executor.execute(baseInfoCatcher);
