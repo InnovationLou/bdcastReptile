@@ -68,8 +68,8 @@ public class Executor {
 //                BaseInfoCatcher baseInfoCatcher=new BaseInfoCatcher(info);
 //                executor.execute(baseInfoCatcher);
                 //下载直播流
-                StreamDownloader downloadCatcher=new StreamDownloader(info);
-                executor.execute(downloadCatcher);
+//                StreamDownloader downloadCatcher=new StreamDownloader(info);
+//                executor.execute(downloadCatcher);
             }
 
             //主线程休眠
