@@ -76,6 +76,7 @@ public class StreamDownloader implements Runnable{
                         System.out.println(streamUrl.get());
                     }
                 });
+
                 page.navigate(liveUrl);
                 //等待NetworkIdle
                 page.waitForLoadState(LoadState.NETWORKIDLE);

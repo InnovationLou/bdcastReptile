@@ -15,6 +15,7 @@ public class BaseInfo {
     private String authorId;
     private String secAuthorId;
     private String liveStatus;
+    private Integer time;
 
     public BaseInfo(String liveUrl, String liveId, String roomId, String liveName, String userUrl,String authorId,String secAuthorId) {
         this.liveUrl = liveUrl;
