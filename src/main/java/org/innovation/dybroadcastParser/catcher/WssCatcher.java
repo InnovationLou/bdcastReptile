@@ -57,65 +57,69 @@ public class WssCatcher implements Runnable{
                             .setDevtools(false)); //打开浏览器开发者工具，默认不打开
 
             Page page = browser.newPage();
-
+            AtomicReference<Integer> downloadCount= new AtomicReference<>(1);
             page.onResponse(response -> {
-                if (response.url().contains("live.douyin.com/webcast/room/web/enter")){
-                    String body= response.text();
-                    JSONObject jsonObject= JSON.parseObject(body);
-                    streamUrl.set(jsonObject.getJSONObject("data")
-                            .getJSONArray("data")
-                            .getJSONObject(0)
-                            .getJSONObject("stream_url")//未开播时这里为空
-                            .getJSONObject("flv_pull_url")
-                            .getString("SD2"));
-                    System.out.println(streamUrl.get());
-                    new Thread(() -> {
-                        try {
-                            Long startTime=System.currentTimeMillis();
-                            String filename=liveName+"_"+startTime+".mp4";
-                            //使用ffmpeg下载streamUrl到本地
-                            ProcessBuilder pb = new ProcessBuilder()
-                                    .redirectErrorStream(true)
-                                    .redirectInput(ProcessBuilder.Redirect.PIPE)
-                                    .redirectOutput(ProcessBuilder.Redirect.INHERIT);
-                            //下载原画视频
-                            pb.command("ffmpeg", "-i", streamUrl.get(), "-c", "copy", "-y", System.getProperty("user.dir")+"/data/"+filename);
+                if (downloadCount.get() ==1){
+                    if (response.url().contains("live.douyin.com/webcast/room/web/enter")){
+                        downloadCount.getAndSet(downloadCount.get() - 1);
+                        String body= response.text();
+                        JSONObject jsonObject= JSON.parseObject(body);
+                        streamUrl.set(jsonObject.getJSONObject("data")
+                                .getJSONArray("data")
+                                .getJSONObject(0)
+                                .getJSONObject("stream_url")//未开播时这里为空
+                                .getJSONObject("flv_pull_url")
+                                .getString("SD2"));
+                        System.out.println(streamUrl.get());
+                        new Thread(() -> {
+                            try {
+                                Long startTime=System.currentTimeMillis();
+                                String filename=liveName+"_"+startTime+".mp4";
+                                //使用ffmpeg下载streamUrl到本地
+                                ProcessBuilder pb = new ProcessBuilder()
+                                        .redirectErrorStream(true)
+                                        .redirectInput(ProcessBuilder.Redirect.PIPE)
+                                        .redirectOutput(ProcessBuilder.Redirect.INHERIT);
+                                //下载原画视频
+                                pb.command("ffmpeg", "-i", streamUrl.get(), "-c", "copy", "-y", System.getProperty("user.dir")+"/data/"+filename);
 
-                            Process process = pb.start();
+                                Process process = pb.start();
 
-                            rename:
-                            //check isInterrupt
-                            while (true) {
-                                while (isInterrupt) {
-                                    //杀死进程ffmpeg.exe 会导致文件损坏 dnm
+                                rename:
+                                //check isInterrupt
+                                while (true) {
+                                    while (isInterrupt) {
+                                        //杀死进程ffmpeg.exe 会导致文件损坏 dnm
 //                    Runtime.getRuntime().exec("taskkill /F /IM ffmpeg.exe");
-                                    //PERFECT SOLUTION!!!!!!!!
-                                    OutputStream ostream = process.getOutputStream(); //Get the output stream of the process, which translates to what would be user input for the commandline
-                                    ostream.write("q\n".getBytes());       //write out the character Q, followed by a newline or carriage return so it registers that Q has been 'typed' and 'entered'.
-                                    ostream.flush();                          //Write out the buffer.
-                                    break rename;
+                                        //PERFECT SOLUTION!!!!!!!!
+                                        OutputStream ostream = process.getOutputStream(); //Get the output stream of the process, which translates to what would be user input for the commandline
+                                        ostream.write("q\n".getBytes());       //write out the character Q, followed by a newline or carriage return so it registers that Q has been 'typed' and 'entered'.
+                                        ostream.flush();                          //Write out the buffer.
+                                        break rename;
+                                    }
+                                    TimeUnit.SECONDS.sleep(1);
                                 }
+                                Long endtime=System.currentTimeMillis();
+                                logger.info("已停止下载,下载持续时间:"+((endtime-startTime)/1000)+"s.开始重命名文件...");
+                                File file=new File(System.getProperty("user.dir")+"/data/"+filename);
+                                while (!file.exists()){
+                                    logger.info("文件不存在,可能正在生成....请等待");
+                                    TimeUnit.SECONDS.sleep(1);
+                                }
+                                TimeUnit.SECONDS.sleep(3);
+                                Runtime.getRuntime().exec("taskkill /F /IM ffmpeg.exe");
                                 TimeUnit.SECONDS.sleep(1);
+                                file.renameTo(new File(System.getProperty("user.dir")+"/data/"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4"));
+                                logger.info("直播流下载完毕"+liveName+timestampToChar(endtime));
+                            }catch (Exception e){
+                                e.printStackTrace();
                             }
-                            Long endtime=System.currentTimeMillis();
-                            logger.info("已停止下载,下载持续时间:"+((endtime-startTime)/1000)+"s.开始重命名文件...");
-                            File file=new File(System.getProperty("user.dir")+"/data/"+filename);
-                            while (!file.exists()){
-                                logger.info("文件不存在,可能正在生成....请等待");
-                                TimeUnit.SECONDS.sleep(1);
-                            }
-                            TimeUnit.SECONDS.sleep(3);
-                            Runtime.getRuntime().exec("taskkill /F /IM ffmpeg.exe");
-                            TimeUnit.SECONDS.sleep(1);
-                            file.renameTo(new File(System.getProperty("user.dir")+"/data/"+liveName+"_"+timestampToChar(startTime)+"_"+timestampToChar(endtime)+".mp4"));
-                            logger.info("直播流下载完毕"+liveName+timestampToChar(endtime));
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
 
-                    }, "ffmpegThread").start();
+                        }, "ffmpegThread").start();
 
+                    }
                 }
+
             });
 
             Map<String, String> map = new HashMap<>();
@@ -133,6 +137,9 @@ public class WssCatcher implements Runnable{
                                 WSS.WssResponse wss = WSS.WssResponse.parseFrom(data);
                                 //GZIP解压data数据
                                 final byte[] uncompress = Utils.uncompress(wss.getData());
+                                if (uncompress==null){
+                                    return;
+                                }
                                 //解析data
                                 DanmuvoWSS.Response response = DanmuvoWSS.Response.parseFrom(uncompress);
                                 final List<DanmuvoWSS.Message> messagesList = response.getMessagesList();
@@ -212,7 +219,7 @@ public class WssCatcher implements Runnable{
                                     }
 
                                 });
-                            } catch (InvalidProtocolBufferException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
