@@ -58,6 +58,7 @@ public class WssCatcher implements Runnable{
 
             Page page = browser.newPage();
             AtomicReference<Integer> downloadCount= new AtomicReference<>(1);
+            AtomicReference<Integer> wwsCount= new AtomicReference<>(1);
             page.onResponse(response -> {
                 if (downloadCount.get() ==1){
                     if (response.url().contains("live.douyin.com/webcast/room/web/enter")){
@@ -130,98 +131,102 @@ public class WssCatcher implements Runnable{
                     webSocket.onFrameReceived(new Consumer<WebSocketFrame>() {
                         @Override
                         public void accept(WebSocketFrame webSocketFrame) {
-                            final byte[] data = webSocketFrame.binary();
-                            try {
-                                //最外层解析 try catch 不指定ws路径也可以，解析失败不会崩溃
-                                //proto解析外层
-                                WSS.WssResponse wss = WSS.WssResponse.parseFrom(data);
-                                //GZIP解压data数据
-                                final byte[] uncompress = Utils.uncompress(wss.getData());
-                                if (uncompress==null){
-                                    return;
-                                }
-                                //解析data
-                                DanmuvoWSS.Response response = DanmuvoWSS.Response.parseFrom(uncompress);
-                                final List<DanmuvoWSS.Message> messagesList = response.getMessagesList();
-                                //根据message区分message类型解析
-                                messagesList.forEach(item -> {
+                            if (wwsCount.get()==1){
+                                wwsCount.getAndSet(wwsCount.get()-1);
+                                final byte[] data = webSocketFrame.binary();
+                                try {
+                                    //最外层解析 try catch 不指定ws路径也可以，解析失败不会崩溃
+                                    //proto解析外层
+                                    WSS.WssResponse wss = WSS.WssResponse.parseFrom(data);
+                                    //GZIP解压data数据
+                                    final byte[] uncompress = Utils.uncompress(wss.getData());
+                                    if (uncompress==null){
+                                        return;
+                                    }
+                                    //解析data
+                                    DanmuvoWSS.Response response = DanmuvoWSS.Response.parseFrom(uncompress);
+                                    final List<DanmuvoWSS.Message> messagesList = response.getMessagesList();
+                                    //根据message区分message类型解析
+                                    messagesList.forEach(item -> {
 //                                    logger.info("wss income:"+item.getMethod());
-                                    //WebcastChatMessage
-                                    if ("WebcastChatMessage".equals(item.getMethod())) {
-                                        try {
-                                            DanmuvoWSS.ChatMessage chatMessage = DanmuvoWSS.ChatMessage.parseFrom(item.getPayload());
-                                            synchronized (this){
-                                                writer.write(new String[]{LocalDateTime.now().toString(),"WebcastChatMessage", chatMessage.getUser().getNickname(),
-                                                        String.valueOf(chatMessage.getUser().getId()), chatMessage.getContent(), "", "", "", "", "", "",liveId,liveName});
+                                        //WebcastChatMessage
+                                        if ("WebcastChatMessage".equals(item.getMethod())) {
+                                            try {
+                                                DanmuvoWSS.ChatMessage chatMessage = DanmuvoWSS.ChatMessage.parseFrom(item.getPayload());
+                                                synchronized (this){
+                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastChatMessage", chatMessage.getUser().getNickname(),
+                                                            String.valueOf(chatMessage.getUser().getId()), chatMessage.getContent(), "", "", "", "", "", "",liveId,liveName});
+                                                }
+                                            } catch (InvalidProtocolBufferException e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (InvalidProtocolBufferException e) {
-                                            e.printStackTrace();
+                                            return;
                                         }
-                                        return;
-                                    }
-                                    //WebcastLikeMessage
-                                    if ("WebcastLikeMessage".equals(item.getMethod())) {
-                                        try {
-                                            DanmuvoWSS.LikeMessage likeMessage = DanmuvoWSS.LikeMessage.parseFrom(item.getPayload());
-                                            synchronized (this){
-                                                writer.write(new String[]{LocalDateTime.now().toString(),"WebcastLikeMessage",
-                                                        likeMessage.getUser().getNickname(), String.valueOf(likeMessage.getUser().getId()), "", String.valueOf(likeMessage.getTotal()), String.valueOf(likeMessage.getCount())
-                                                        , "", "", "", "",liveId,liveName});
+                                        //WebcastLikeMessage
+                                        if ("WebcastLikeMessage".equals(item.getMethod())) {
+                                            try {
+                                                DanmuvoWSS.LikeMessage likeMessage = DanmuvoWSS.LikeMessage.parseFrom(item.getPayload());
+                                                synchronized (this){
+                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastLikeMessage",
+                                                            likeMessage.getUser().getNickname(), String.valueOf(likeMessage.getUser().getId()), "", String.valueOf(likeMessage.getTotal()), String.valueOf(likeMessage.getCount())
+                                                            , "", "", "", "",liveId,liveName});
+                                                }
+                                            } catch (InvalidProtocolBufferException e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (InvalidProtocolBufferException e) {
-                                            e.printStackTrace();
+                                            return;
                                         }
-                                        return;
-                                    }
-                                    //WebcastGiftMessage
-                                    if ("WebcastGiftMessage".equals(item.getMethod())){
-                                        try {
-                                            DanmuvoWSS.GiftMessage giftMessage = DanmuvoWSS.GiftMessage.parseFrom(item.getPayload());
-                                            synchronized (this){
-                                                writer.write(new String[]{LocalDateTime.now().toString(),"WebcastGiftMessage",
-                                                        giftMessage.getUser().getNickname(), String.valueOf(giftMessage.getUser().getId()), "", "", "", String.valueOf(giftMessage.getGift().getId()),
-                                                        giftMessage.getGift().getDescribe(), String.valueOf(giftMessage.getComboCount()), "",liveId,liveName});
+                                        //WebcastGiftMessage
+                                        if ("WebcastGiftMessage".equals(item.getMethod())){
+                                            try {
+                                                DanmuvoWSS.GiftMessage giftMessage = DanmuvoWSS.GiftMessage.parseFrom(item.getPayload());
+                                                synchronized (this){
+                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastGiftMessage",
+                                                            giftMessage.getUser().getNickname(), String.valueOf(giftMessage.getUser().getId()), "", "", "", String.valueOf(giftMessage.getGift().getId()),
+                                                            giftMessage.getGift().getDescribe(), String.valueOf(giftMessage.getComboCount()), "",liveId,liveName});
 
+                                                }
+                                            } catch (InvalidProtocolBufferException e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (InvalidProtocolBufferException e) {
-                                            e.printStackTrace();
+                                            return;
                                         }
-                                        return;
-                                    }
-                                    //WebcastMemberMessage
-                                    if ("WebcastMemberMessage".equals(item.getMethod())){
-                                        try {
-                                            DanmuvoWSS.MemberMessage memberMessage = DanmuvoWSS.MemberMessage.parseFrom(item.getPayload());
-                                            synchronized (this){
-                                                writer.write(new String[]{LocalDateTime.now().toString(),"WebcastMemberMessage",
-                                                        memberMessage.getUser().getNickname(), String.valueOf(memberMessage.getUser().getId()), "", "", "", "", "", ""
-                                                        , String.valueOf(memberMessage.getMemberCount()),liveId,liveName});
+                                        //WebcastMemberMessage
+                                        if ("WebcastMemberMessage".equals(item.getMethod())){
+                                            try {
+                                                DanmuvoWSS.MemberMessage memberMessage = DanmuvoWSS.MemberMessage.parseFrom(item.getPayload());
+                                                synchronized (this){
+                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastMemberMessage",
+                                                            memberMessage.getUser().getNickname(), String.valueOf(memberMessage.getUser().getId()), "", "", "", "", "", ""
+                                                            , String.valueOf(memberMessage.getMemberCount()),liveId,liveName});
 
+                                                }
+                                            } catch (InvalidProtocolBufferException e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (InvalidProtocolBufferException e) {
-                                            e.printStackTrace();
+                                            return;
                                         }
-                                        return;
-                                    }
-                                    //WebcastRoomStatsMessage
-                                    if ("WebcastRoomStatsMessage".equals(item.getMethod())){
-                                        try {
-                                            DanmuvoWSS.RoomStatsMessage roomStatsMessage = DanmuvoWSS.RoomStatsMessage.parseFrom(item.getPayload());
-                                            synchronized (this){
-                                                writer.write(new String[]{LocalDateTime.now().toString(),"WebcastRoomStatsMessage",
-                                                        "", "", String.valueOf(roomStatsMessage.getRoomId()), "", "", "", "", ""
-                                                        , String.valueOf(roomStatsMessage.getLiveWatchUcnt()),liveId,liveName});
+                                        //WebcastRoomStatsMessage
+                                        if ("WebcastRoomStatsMessage".equals(item.getMethod())){
+                                            try {
+                                                DanmuvoWSS.RoomStatsMessage roomStatsMessage = DanmuvoWSS.RoomStatsMessage.parseFrom(item.getPayload());
+                                                synchronized (this){
+                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastRoomStatsMessage",
+                                                            "", "", String.valueOf(roomStatsMessage.getRoomId()), "", "", "", "", ""
+                                                            , String.valueOf(roomStatsMessage.getLiveWatchUcnt()),liveId,liveName});
+                                                }
+                                            } catch (InvalidProtocolBufferException e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (InvalidProtocolBufferException e) {
-                                            e.printStackTrace();
+                                            return;
                                         }
-                                        return;
-                                    }
 
-                                });
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
+
                         }
                     });
                 }
