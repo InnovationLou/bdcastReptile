@@ -13,6 +13,7 @@ import org.innovation.dybroadcastParser.proto.DanmuvoWSS;
 import org.innovation.dybroadcastParser.proto.WSS;
 import org.innovation.dybroadcastParser.util.Utils;
 import org.innovation.dybroadcastParser.vo.BaseInfo;
+import org.innovation.dybroadcastParser.vo.ProductResultBean;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -47,7 +48,15 @@ public class WssCatcher implements Runnable{
         CsvWriter writer = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\Wss-output" + liveName
                 +LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy年MM月dd日HH时mm分"))+".csv", CharsetUtil.CHARSET_GBK);
         //按行写出
-        writer.writeHeaderLine("时间戳","消息类型","用户名","用户id","内容","总点赞","用户单次点赞","礼物Id","礼物描述","礼物数量","在线观众总数","直播间id","主播名字");
+        writer.writeHeaderLine("时间戳","消息类型","用户等级","粉丝牌等级","用户名","用户id","内容","总点赞","用户单次点赞","礼物Id","礼物描述","礼物数量","在线观众总数","直播间id","主播名字");
+
+        //指定路径和编码
+        CsvWriter writer2 = CsvUtil.getWriter(System.getProperty("user.dir")+"\\data\\Product-output" + liveName
+                +LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy年MM月dd日HH时mm分"))+".csv", CharsetUtil.CHARSET_GBK);
+        //按行写出
+        writer2.writeHeaderLine("时间戳","productId","promotionId","商品标题","商品活动价格","商品常规价格","商品销量","直播间id","主播名称");
+
+
         AtomicReference<String> streamUrl= new AtomicReference<>("");
         try (Playwright playwright = Playwright.create()) {
             Browser browser = playwright.webkit().launch(
@@ -132,7 +141,7 @@ public class WssCatcher implements Runnable{
                         @Override
                         public void accept(WebSocketFrame webSocketFrame) {
                             if (wwsCount.get()==1){
-                                wwsCount.getAndSet(wwsCount.get()-1);
+//                                wwsCount.getAndSet(wwsCount.get()-1);
                                 final byte[] data = webSocketFrame.binary();
                                 try {
                                     //最外层解析 try catch 不指定ws路径也可以，解析失败不会崩溃
@@ -154,8 +163,10 @@ public class WssCatcher implements Runnable{
                                             try {
                                                 DanmuvoWSS.ChatMessage chatMessage = DanmuvoWSS.ChatMessage.parseFrom(item.getPayload());
                                                 synchronized (this){
-                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastChatMessage", chatMessage.getUser().getNickname(),
-                                                            String.valueOf(chatMessage.getUser().getId()), chatMessage.getContent(), "", "", "", "", "", "",liveId,liveName});
+                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastChatMessage",
+                                                            String.valueOf(chatMessage.getUser().getPayGrade().getLevel()), String.valueOf(chatMessage.getUser().getFansClub().getData().getLevel()),
+                                                            chatMessage.getUser().getNickname(), String.valueOf(chatMessage.getUser().getId()), chatMessage.getContent(), "", "", "", "", "", "",liveId,liveName});
+//                                                    logger.info(chatMessage.getUser().toString());
                                                 }
                                             } catch (InvalidProtocolBufferException e) {
                                                 e.printStackTrace();
@@ -167,7 +178,7 @@ public class WssCatcher implements Runnable{
                                             try {
                                                 DanmuvoWSS.LikeMessage likeMessage = DanmuvoWSS.LikeMessage.parseFrom(item.getPayload());
                                                 synchronized (this){
-                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastLikeMessage",
+                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastLikeMessage","", "",
                                                             likeMessage.getUser().getNickname(), String.valueOf(likeMessage.getUser().getId()), "", String.valueOf(likeMessage.getTotal()), String.valueOf(likeMessage.getCount())
                                                             , "", "", "", "",liveId,liveName});
                                                 }
@@ -181,7 +192,7 @@ public class WssCatcher implements Runnable{
                                             try {
                                                 DanmuvoWSS.GiftMessage giftMessage = DanmuvoWSS.GiftMessage.parseFrom(item.getPayload());
                                                 synchronized (this){
-                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastGiftMessage",
+                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastGiftMessage","", "",
                                                             giftMessage.getUser().getNickname(), String.valueOf(giftMessage.getUser().getId()), "", "", "", String.valueOf(giftMessage.getGift().getId()),
                                                             giftMessage.getGift().getDescribe(), String.valueOf(giftMessage.getComboCount()), "",liveId,liveName});
 
@@ -196,7 +207,7 @@ public class WssCatcher implements Runnable{
                                             try {
                                                 DanmuvoWSS.MemberMessage memberMessage = DanmuvoWSS.MemberMessage.parseFrom(item.getPayload());
                                                 synchronized (this){
-                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastMemberMessage",
+                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastMemberMessage","", "",
                                                             memberMessage.getUser().getNickname(), String.valueOf(memberMessage.getUser().getId()), "", "", "", "", "", ""
                                                             , String.valueOf(memberMessage.getMemberCount()),liveId,liveName});
 
@@ -211,7 +222,7 @@ public class WssCatcher implements Runnable{
                                             try {
                                                 DanmuvoWSS.RoomStatsMessage roomStatsMessage = DanmuvoWSS.RoomStatsMessage.parseFrom(item.getPayload());
                                                 synchronized (this){
-                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastRoomStatsMessage",
+                                                    writer.write(new String[]{LocalDateTime.now().toString(),"WebcastRoomStatsMessage","", "",
                                                             "", "", String.valueOf(roomStatsMessage.getRoomId()), "", "", "", "", ""
                                                             , String.valueOf(roomStatsMessage.getLiveWatchUcnt()),liveId,liveName});
                                                 }
@@ -245,7 +256,50 @@ public class WssCatcher implements Runnable{
 //                    }
 //                }
 //            });
+            page.onResponse(response -> {
+                if (response.url().contains("live.douyin.com/live/promotions/pop/v3")){
+                    try {
+                        ProductResultBean bean=new ProductResultBean();
+                        String result=response.text();
+                        System.out.println(result);
+                        JSONObject object=JSON.parseObject(result);
+                        if (object!=null){
+                            //product_id
+                            String productId=object.getJSONArray("promotions").getJSONObject(0).getString("product_id");
+                            //promotion_id
+                            String promotionId=object.getJSONArray("promotions").getJSONObject(0).getString("promotion_id");
+                            //商品标题
+                            String title = object.getJSONArray("promotions").getJSONObject(0).getString("title");
+                            //商品单价-当前活动价格
+                            Double price=object.getJSONArray("promotions").getJSONObject(0).getDouble("min_price");
+                            //商品单价-当前活动价格
+                            Double regularPrice=object.getJSONArray("promotions").getJSONObject(0).getDouble("regular_price");
+                            Long sale=0L;
+                            if (object.getJSONArray("promotions").getJSONObject(0).getJSONObject("hot_atmosphere")!=null){
+                                //商品销量
+                                sale=object.getJSONArray("promotions").getJSONObject(0).getJSONObject("hot_atmosphere").getLong("sale_num");
+                            }
 
+                            //LocalDateTime
+                            bean.setTime(LocalDateTime.now());
+                            bean.setProductId(productId);
+                            bean.setPromotionId(promotionId);
+                            bean.setTitle(title);
+                            bean.setPrice(price/100.0f);
+                            bean.setRegularPrice(regularPrice/100.0f);
+                            bean.setSaleNum(sale);
+                            //写入bean到csv
+                            String[] content = {bean.getTime().toString(),bean.getProductId(),bean.getPromotionId(),bean.getTitle(),String.valueOf(bean.getPrice()),String.valueOf(bean.getRegularPrice()),String.valueOf(sale)};
+                            writer2.write(content);
+                            logger.info("Product请求成功"+liveName);
+                        }
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        logger.error("Product请求失败"+liveName);
+                    }
+                }
+            });
             //访问页面
             page.navigate(liveUrl);
             page.waitForLoadState(LoadState.NETWORKIDLE);
